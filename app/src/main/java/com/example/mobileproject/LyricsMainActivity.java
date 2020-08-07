@@ -1,16 +1,28 @@
 package com.example.mobileproject;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -21,89 +33,165 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 
-public class LyricsMainActivity extends AppCompatActivity {
+
+public class LyricsMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ACTIVITY_NAME = "MAIN_ACTIVITY";
-    SharedPreferences prefs = null;
-    private ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
-    SQLiteDatabase db;
     protected String artist;
     protected String title;
-
+    protected String lyrics;
+    ProgressBar progressBar;
+    Button toSavedFavourites;
+    EditText artistName;
+    EditText songTitle;
+    Button searchAPIButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lyrics_activity_main);
 
+        toSavedFavourites = findViewById(R.id.savedFavouritesButton);
+        artistName = findViewById(R.id.enterArtistName);
+        songTitle = findViewById(R.id.enterSongTitle);
+        searchAPIButton = findViewById(R.id.searchAPIButton);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
-        Button toSavedFavourites = findViewById(R.id.savedFavouritesButton);
-        EditText artistName = findViewById(R.id.enterartistname);
-        EditText songTitle = findViewById(R.id.enterartitlesong);
+        loadToolbar();
 
-
-        toSavedFavourites.setOnClickListener(click ->   {
-            Intent nextPage = new Intent(this, LyricsFavouritesActivity.class);
-            nextPage.putExtra("Artist", artistName.getText().toString());
-            nextPage.putExtra("Title", songTitle.getText().toString());
-            startActivity(nextPage);
-        });
-
-
-        Button searchAPIButton = findViewById(R.id.searchAPIButton);
         searchAPIButton.setOnClickListener(lb -> {
+            InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(songTitle.getWindowToken(), 0);
+
+            progressBar.setVisibility(View.VISIBLE);
             artist = artistName.getText().toString();
             title = songTitle.getText().toString();
 
             SongQuery req = new SongQuery();
-            loadDataFromDatabase();
             String url = "https://api.lyrics.ovh/v1/" +
                     artist.replace(" ", "%20") + "/" +
                     title.replace(" ", "%20");
             req.execute(url);
         });
+
+        toSavedFavourites.setOnClickListener(click -> {
+            Intent nextPage = new Intent(this, LyricsFavouritesActivity.class);
+            nextPage.putExtra("Artist", artistName.getText().toString());
+            nextPage.putExtra("Title", songTitle.getText().toString());
+            startActivity(nextPage);
+        });
     }
 
-    private void loadDataFromDatabase() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.lyrics_favourites_activity_menu, menu);
+        return true;
+    }
 
-        LyricsMyOpener dbOpener = new LyricsMyOpener(this);
-        db = dbOpener.getWritableDatabase(); // Calls onCreate() if you've never built the table before, onUpgrade if the version here is newer
+    public void loadToolbar() {
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        String[] columns = {LyricsMyOpener.COL_ID, LyricsMyOpener.COL_ARTIST, LyricsMyOpener.COL_TITLE, LyricsMyOpener.COL_LYRICS};
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-        Cursor results = db.query(false, LyricsMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
-//        printCursor(results, db.getVersion());
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
-        int idColIndex = results.getColumnIndex(LyricsMyOpener.COL_ID);
-        int artistColIndex = results.getColumnIndex(LyricsMyOpener.COL_ARTIST);
-        int titleColIndex = results.getColumnIndex(LyricsMyOpener.COL_TITLE);
-        int lyricsColIndex = results.getColumnIndex(LyricsMyOpener.COL_LYRICS);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String message = null;
+        //Look at your menu XML file. Put a case for every id in that file:
+        switch(item.getItemId())
+        {
+            //what to do when the menu item is selected:
 
-        while (results.moveToNext()) {
-            long id = results.getLong(idColIndex);
-            String artist = results.getString(artistColIndex);
-            String title = results.getString(titleColIndex);
-            String lyrics = results.getString(lyricsColIndex);
+            case R.id.donateItem:
+                donateDialog();
+                break;
 
-            //add the new Song to the array list:
-            elements.add(new LyricsSavedFavourite(artist, title, lyrics, id));
+            case R.id.helpItem:
+                helpDialog();
+                break;
         }
+        return true;
     }
 
 
-    private class SongQuery extends AsyncTask<String, String, String> {
-        private String lyrics;
+    @Override
+    public boolean onNavigationItemSelected( MenuItem item) {
+        String message = null;
+
+        switch(item.getItemId())
+        {
+            case R.id.goToMainPage:
+                Intent nextActivity = new Intent(this, MainActivity.class);
+                startActivity(nextActivity); //make the transition
+                break;
+
+            case R.id.donateItem:
+                donateDialog();
+                break;
+
+            case R.id.helpItem:
+                helpDialog();
+                break;
+
+            case R.id.aboutProject:
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lyricsovh.docs.apiary.io/"));
+//                startActivity(browserIntent);
+                Toast.makeText(this, R.string.favouritesInstructionsTitle, Toast.LENGTH_LONG);
+                break;
+        }
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+
+        return false;
+    }
+
+    public void helpDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.favouritesInstructionsTitle)
+                .setMessage(R.string.favouritesInstructionsBody)
+                .setPositiveButton(R.string.OK, (click, arg) -> {}).create().show();
+    }
+
+
+    public void donateDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.favouritesDonateTitle)
+                .setMessage(R.string.favouritesDonate)
+                .setPositiveButton(R.string.yes, (click, arg) -> {
+                    Toast.makeText(this, R.string.favouritesThankYou, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(R.string.no, (click, arg) -> {
+                    Toast.makeText(this, R.string.favouritesThatsOK, Toast.LENGTH_SHORT).show();
+                }).create().show();
+    }
+
+
+
+    private class SongQuery extends AsyncTask<String, Integer, String> {
+        TextView lyricsTextView = findViewById(R.id.lyricsTextView);
 
         @Override
         protected String doInBackground(String... args) {
             try {
                 //create a URL object of what server to contact:
-
                 URL url = new URL(args[0]);
 
+                //Replace " " with "%20" so the API can search artists/titles with spaces
                 artist = artist.replace("%20", " ");
                 title = title.replace("%20", " ");
 
@@ -129,6 +217,8 @@ public class LyricsMainActivity extends AppCompatActivity {
                 //wait for data:
                 response = urlConnection.getInputStream();
 
+                publishProgress(50);
+
                 //JSON reading:   Look at slide 26
                 //Build the entire string response:
                 BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
@@ -143,7 +233,6 @@ public class LyricsMainActivity extends AppCompatActivity {
                 JSONObject returnedInfo = new JSONObject(result);
                 lyrics = returnedInfo.getString("lyrics");
 
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,38 +242,36 @@ public class LyricsMainActivity extends AppCompatActivity {
 
 
         protected void onProgressUpdate(Integer... value) {
-//            ProgressBar progressBar = findViewById(R.id.progressBar);
-//            progressBar.setProgress(value[0]);
-//            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(value[0]);
         }
 
         protected void onPostExecute(String fromDoInBackground) {
+            if(lyrics!=null) {
+                //Code for switching to fragment with selected item's lyrics
+                //Creating and passing a bundle with that item's info
+                Bundle dataToPass = new Bundle();
+                dataToPass.putString("ARTIST", artist);
+                dataToPass.putString("TITLE", title);
+                dataToPass.putString("LYRICS", lyrics);
+                boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
-            title = fromDoInBackground;
-            ContentValues newRowValues = new ContentValues();
+                if(isTablet) {
+                    LyricsDetailsFragment dFragment = new LyricsDetailsFragment(); //add a DetailFragment
+                    dFragment.setArguments( dataToPass );
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .commit(); //actually load the fragment. Calls onCreate() in DetailFragment
+                } else {
+                    //isPhone
+                    Intent nextActivity = new Intent(LyricsMainActivity.this, LyricsEmptyActivity.class);
+                    nextActivity.putExtras(dataToPass); //send data to next activity
+                    startActivity(nextActivity); //make the transition
+                }
 
-            loadDataFromDatabase();
+            } else lyricsTextView.setText("Could not find lyrics.");
 
-            newRowValues.put(LyricsMyOpener.COL_ARTIST, toTitleCase(artist.toLowerCase()));
-            newRowValues.put(LyricsMyOpener.COL_TITLE, toTitleCase(title.toLowerCase()));
-            newRowValues.put(LyricsMyOpener.COL_LYRICS, lyrics);
-
-
-            long newId = db.insert(LyricsMyOpener.TABLE_NAME, null, newRowValues);
-
-            LyricsSavedFavourite favourite = new LyricsSavedFavourite(artist, title, lyrics, newId);
-            elements.add(favourite);
+            progressBar.setVisibility(View.INVISIBLE);
         }
-    }
-
-    public static String toTitleCase(String givenString) {
-        String[] arr = givenString.split(" ");
-        StringBuffer sb = new StringBuffer();
-
-        for (int i = 0; i < arr.length; i++) {
-            sb.append(Character.toUpperCase(arr[i].charAt(0)))
-                    .append(arr[i].substring(1)).append(" ");
-        }
-        return sb.toString().trim();
     }
 }

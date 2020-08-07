@@ -4,7 +4,7 @@
 
     <item android:id="@+id/goToMainPage"
         android:title="@string/goToMainPage"
-        android:icon="@drawable/music_note"
+
         app:showAsAction="always"
         android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
 

@@ -39,7 +39,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="favouritesVersion">Version 1.0</string>
-    <string name="favouritesAboutProject">About Project</string>
+    <string name="favouritesAboutProject">About This Project</string>
     <string name="favouritesWhatIsMusic">Music</string>
     <string name="favouritesMusicDefinition">Webster\'s dictionary defines music as vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony.</string>
     <string name="favouritesDonate">Would you like to donate $10 to fund this project?</string>
@@ -50,6 +50,10 @@
     <string name="no">No</string>
     <string name="favouritesDonateTitle">Donate?</string>
     <string name="goToMainPage">Go to Main Page</string>
+    <string name="saveToFavourites">Save to Favourites</string>
+    <string name="OK">OK</string>
+    <string name="appName">Final Project V2</string>
+    <string name="lyricsActivityName">Song Lyrics Search</string>
 
 
 </resources>

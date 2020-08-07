@@ -1,6 +1,9 @@
 package com.example.mobileproject;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -20,24 +24,27 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class LyricsDetailsFragment extends Fragment {
 
-    TextView albumTextView;
     private Bundle dataFromActivity;
+    SQLiteDatabase db;
     private long id;
     private String artist;
     private String title;
     private String lyrics;
-    private String album;
     private AppCompatActivity parentActivity;
+    private ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
+    Button saveToFavourites;
+    Button hideButton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         dataFromActivity = getArguments();
-        id = dataFromActivity.getLong( LyricsFavouritesActivity.ITEM_ID);
         artist = dataFromActivity.getString( LyricsFavouritesActivity.ARTIST);
         title = dataFromActivity.getString( LyricsFavouritesActivity.TITLE);
         lyrics = dataFromActivity.getString( LyricsFavouritesActivity.LYRICS);
@@ -57,15 +64,44 @@ public class LyricsDetailsFragment extends Fragment {
         TextView lyricsTextView = result.findViewById(R.id.songLyrics);
         lyricsTextView.setText(lyrics);
 
-
         // get the delete button, and add a click listener:
-        Button hideButton = (Button)result.findViewById(R.id.fragmentButton);
+        hideButton = result.findViewById(R.id.fragmentButton);
 
         hideButton.setOnClickListener( clk -> {
             //Tell the parent activity to remove
             getFragmentManager().beginTransaction().remove(this).commit();
             getFragmentManager().popBackStackImmediate();
 
+        });
+
+        saveToFavourites = result.findViewById(R.id.saveToFavourites);
+
+
+        loadDataFromDatabase();
+
+        for (int i=0; i<elements.size(); i++) {
+            if (elements.get(i).getArtist().equals(artist) && elements.get(i).getTitle().equals(title))
+                saveToFavourites.setVisibility(View.INVISIBLE);
+                break;
+        }
+
+
+
+        saveToFavourites.setOnClickListener(click -> {
+            ContentValues newRowValues = new ContentValues();
+
+            newRowValues.put(LyricsMyOpener.COL_ARTIST, toTitleCase(artist.toLowerCase()));
+            newRowValues.put(LyricsMyOpener.COL_TITLE, toTitleCase(title.toLowerCase()));
+            newRowValues.put(LyricsMyOpener.COL_LYRICS, lyricsTextView.getText().toString());
+
+
+            long newId = db.insert(LyricsMyOpener.TABLE_NAME, null, newRowValues);
+
+            LyricsSavedFavourite favourite = new LyricsSavedFavourite(artist, title, lyrics, newId);
+            elements.add(favourite);
+
+            Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
+            saveToFavourites.setVisibility(View.INVISIBLE);
         });
 
         return result;
@@ -77,5 +113,40 @@ public class LyricsDetailsFragment extends Fragment {
 
         //context will either be FragmentExample for a tablet, or LyricsEmptyActivity for phone
         parentActivity = (AppCompatActivity)context;
+    }
+
+    private void loadDataFromDatabase() {
+        LyricsMyOpener dbOpener = new LyricsMyOpener(getActivity());
+        db = dbOpener.getWritableDatabase(); // Calls onCreate() if you've never built the table before, onUpgrade if the version here is newer
+
+        String[] columns = {LyricsMyOpener.COL_ID, LyricsMyOpener.COL_ARTIST, LyricsMyOpener.COL_TITLE, LyricsMyOpener.COL_LYRICS};
+
+        Cursor results = db.query(false, LyricsMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
+
+        int idColIndex = results.getColumnIndex(LyricsMyOpener.COL_ID);
+        int artistColIndex = results.getColumnIndex(LyricsMyOpener.COL_ARTIST);
+        int titleColIndex = results.getColumnIndex(LyricsMyOpener.COL_TITLE);
+        int lyricsColIndex = results.getColumnIndex(LyricsMyOpener.COL_LYRICS);
+
+        while (results.moveToNext()) {
+            long id = results.getLong(idColIndex);
+            String artist = results.getString(artistColIndex);
+            String title = results.getString(titleColIndex);
+            String lyrics = results.getString(lyricsColIndex);
+
+            //add the new Song to the array list:
+            elements.add(new LyricsSavedFavourite(artist, title, lyrics, id));
+        }
+    }
+
+    public static String toTitleCase(String givenString) {
+        String[] arr = givenString.split(" ");
+        StringBuffer sb = new StringBuffer();
+
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(Character.toUpperCase(arr[i].charAt(0)))
+                    .append(arr[i].substring(1)).append(" ");
+        }
+        return sb.toString().trim();
     }
 }

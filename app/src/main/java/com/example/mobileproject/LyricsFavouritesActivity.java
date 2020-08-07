@@ -61,21 +61,9 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         prefs = getSharedPreferences("Last Lookup", Context.MODE_PRIVATE);
         String savedString = prefs.getString("Last Lookup", "");
         EditText favouritesSearchInput = findViewById(R.id.favouritesSearch);
-        favouritesSearchInput.setHint(getResources().getString(R.string.lastSearch) + savedString);
+        favouritesSearchInput.setHint(R.string.lastSearch + savedString);
 
-
-        //Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawerLayout, toolbar, R.string.open, R.string.close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        loadToolbar();
 
 
         //Show list of songs
@@ -102,7 +90,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
                 myAdapter.notifyDataSetChanged();
             } else {
                 //Nothing was typed in
-                Snackbar.make(favouritesSearchButton, getResources().getString(R.string.favouritesSnackbarString), Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(favouritesSearchButton, R.string.favouritesSnackbarString, Snackbar.LENGTH_SHORT).show();
                 loadDataFromDatabase(false, null);
                 myAdapter.notifyDataSetChanged();
             }
@@ -139,15 +127,15 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
         myList.setOnItemLongClickListener( (parent, view, position, id) -> {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle(getResources().getString(R.string.favouritesDeleteQuestion))
-                    .setMessage(getResources().getString(R.string.favouritesDeleteArtist) + elements.get(position).getArtist()
-                            + "\n" + getResources().getString(R.string.favouritesDeleteSong) + elements.get(position).getTitle())
-                    .setPositiveButton(getResources().getString(R.string.favouritesDeleteYes), (click, arg) -> {
+            alertDialogBuilder.setTitle(R.string.favouritesDeleteQuestion)
+                    .setMessage(R.string.favouritesDeleteArtist + elements.get(position).getArtist()
+                            + "\n" + R.string.favouritesDeleteSong + elements.get(position).getTitle())
+                    .setPositiveButton(R.string.favouritesDeleteYes, (click, arg) -> {
                         db.delete(LyricsMyOpener.TABLE_NAME, LyricsMyOpener.COL_ID + "= ?", new String[] {Long.toString(elements.get(position).getId())});
                         elements.remove(position);
                         myAdapter.notifyDataSetChanged();
                     })
-                    .setNegativeButton(getResources().getString(R.string.favouritesDeleteNo), (click, arg) -> {  })
+                    .setNegativeButton(R.string.favouritesDeleteNo, (click, arg) -> {  })
                     .create().show();
 
             return true;
@@ -169,6 +157,22 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         return true;
     }
 
+    public void loadToolbar() {
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String message = null;
         //Look at your menu XML file. Put a case for every id in that file:
@@ -189,7 +193,6 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
     @Override
     public boolean onNavigationItemSelected( MenuItem item) {
-
         String message = null;
 
         switch(item.getItemId())
@@ -217,21 +220,21 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
     public void helpDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getResources().getString(R.string.favouritesInstructionsTitle))
-                .setMessage(getResources().getString(R.string.favouritesInstructionsBody))
+        alertDialogBuilder.setTitle(R.string.favouritesInstructionsTitle)
+                .setMessage(R.string.favouritesInstructionsBody)
                 .setPositiveButton("OK", (click, arg) -> {}).create().show();
     }
 
 
     public void donateDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getResources().getString(R.string.favouritesDonateTitle))
-                .setMessage(getResources().getString(R.string.favouritesDonate))
-                .setPositiveButton(getResources().getString(R.string.yes), (click, arg) -> {
-                    Toast.makeText(this, getResources().getString(R.string.favouritesThankYou), Toast.LENGTH_SHORT).show();
+        alertDialogBuilder.setTitle(R.string.favouritesDonateTitle)
+                .setMessage(R.string.favouritesDonate)
+                .setPositiveButton(R.string.yes, (click, arg) -> {
+                    Toast.makeText(this, R.string.favouritesThankYou, Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton(getResources().getString(R.string.no), (click, arg) -> {
-                    Toast.makeText(this, getResources().getString(R.string.favouritesThatsOK), Toast.LENGTH_SHORT).show();
+                .setNegativeButton(R.string.no, (click, arg) -> {
+                    Toast.makeText(this, R.string.favouritesThatsOK, Toast.LENGTH_SHORT).show();
                 }).create().show();
     }
 
@@ -271,9 +274,9 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         }
 
         if (elements.size() == 1)
-            Toast.makeText(this, getResources().getString(R.string.favouritesFoundOneSong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.favouritesFoundOneSong, Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, getResources().getString(R.string.favouritesFoundManySongs1) + elements.size() + getResources().getString(R.string.favouritesFoundManySongs2), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.favouritesFoundManySongs1 + elements.size() + R.string.favouritesFoundManySongs2, Toast.LENGTH_SHORT).show();
     }
 
     class MyListAdapter extends BaseAdapter implements ListAdapter {
