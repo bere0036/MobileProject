@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/artistname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/artistname" />
+
+    <EditText
+        android:id="@+id/enterartistname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/enterartistname"
+        android:nextFocusDown="@id/enterartistname"
+        android:nextFocusUp="@id/enterartistname"
+        android:nextFocusRight="@id/enterartistname"
+        android:nextFocusLeft="@id/enterartistname"/>
+
+    <TextView
+        android:id="@+id/titlesong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/titlesong" />
+
+    <EditText
+        android:id="@+id/enterartitlesong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/enterartitlesong"
+        android:nextFocusDown="@id/enterartitlesong"
+        android:nextFocusUp="@id/enterartitlesong"
+        android:nextFocusRight="@id/enterartitlesong"
+        android:nextFocusLeft="@id/enterartitlesong"/>
+
+    <Button
+        android:id="@+id/searchAPIButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search API"/>
+
+    <Button
+        android:id="@+id/searchbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/searchbutton"
+        android:nextFocusDown="@id/searchbutton"
+        android:nextFocusUp="@id/searchbutton"
+        android:nextFocusRight="@id/searchbutton"
+        android:nextFocusLeft="@id/searchbutton"/>
+    <Button
+        android:id="@+id/savedFavouritesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="To Saved Favourites"
+        android:nextFocusDown="@id/searchbutton"
+        android:nextFocusUp="@id/searchbutton"
+        android:nextFocusRight="@id/searchbutton"
+        android:nextFocusLeft="@id/searchbutton"/>
+</LinearLayout>
+

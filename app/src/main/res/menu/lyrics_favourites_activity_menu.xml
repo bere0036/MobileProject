@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/goToMainPage"
+        android:title="@string/goToMainPage"
+        android:icon="@drawable/music_note"
+        app:showAsAction="always"
+        android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
+
+    <item android:id="@+id/donateItem"
+        android:title="@string/favouritesDonateTitle"
+        android:icon="@drawable/dollar_sign"
+        android:orderInCategory="400"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/helpItem"
+        android:icon="@drawable/question_mark"
+        android:title="@string/favouritesHelpButton"
+        app:showAsAction="always"
+        android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
+
+    <item android:id="@+id/aboutProject"
+        android:icon="@drawable/about_project"
+        android:title="@string/favouritesAboutProject"
+        app:showAsAction="never"
+        android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
+
+
+</menu>

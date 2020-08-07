@@ -1,3 +1,55 @@
 <resources>
-    <string name="app_name">MobileProject</string>
+    <string name="app_name">Final Project</string>
+    <string name="artistname">Artist:</string>
+    <string name="enterartistname">Enter Artist Name </string>
+    <string name="titlesong">Song</string>
+    <string name="enterartitlesong">Enter Title Song </string>
+    <string name="searchbutton">Google Search</string>
+    <string name="resultButton">Search Result</string>
+    <string name="saveFav">Save to Favourite</string>
+    <string name="NRVbackbtn">Back</string>
+
+    <string name="result">Result</string>
+    <string name="search">Google Search</string>
+    <string name="type_here">Artist and song</string>
+    <string name="help">help</string>
+    <string name="check_message">check for more information</string>
+    <string name="toast_message">For more information, click on Google</string>
+    <string name="toast_message2">This page is the search result. For more information, please click on Google</string>
+
+    <string name="fragmentButton">HIDE</string>
+    <string name="savedFavourites">Saved Favourites</string>
+    <string name="author">Author: Yury Berestetsky</string>
+    <string name="favouritesSearch">"Search: "</string>
+    <string name="searchHint">Type here...</string>
+    <string name="favouritesSearchButton">GO</string>
+    <string name="favouritesSnackbarString">No search term entered. Showing whole list.</string>
+    <string name="lastSearch">"Last search: "</string>
+    <string name="favouritesDeleteQuestion">Do you want to delete this?</string>
+    <string name="favouritesDeleteArtist">"Artist: "</string>
+    <string name="favouritesDeleteSong">"Song: "</string>
+    <string name="favouritesDeleteYes">Yes</string>
+    <string name="favouritesDeleteNo">No</string>
+    <string name="favouritesHelpButton">Help</string>
+    <string name="favouritesInstructionsBody">- Click on a song in the list to see its lyrics.\n- Search for a song title or artist in the search window.\n- Long press a song to delete it from the list.</string>
+    <string name="favouritesInstructionsTitle">Instructions for this page:</string>
+    <string name="favouritesFoundOneSong">Found one song.</string>
+    <string name="favouritesFoundManySongs1">"Found "</string>
+    <string name="favouritesFoundManySongs2">" songs."</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="favouritesVersion">Version 1.0</string>
+    <string name="favouritesAboutProject">About Project</string>
+    <string name="favouritesWhatIsMusic">Music</string>
+    <string name="favouritesMusicDefinition">Webster\'s dictionary defines music as vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony.</string>
+    <string name="favouritesDonate">Would you like to donate $10 to fund this project?</string>
+    <string name="favouritesThankYou">Thank you!</string>
+    <string name="favouritesThatsOK">That\'s OK!</string>
+    <string name="favouritesMusicDefinitionTitle">What is music?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="favouritesDonateTitle">Donate?</string>
+    <string name="goToMainPage">Go to Main Page</string>
+
+
 </resources>
