@@ -42,33 +42,55 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
     protected String artist;
     protected String title;
     protected String lyrics;
+
     ProgressBar progressBar;
-    Button toSavedFavourites;
-    EditText artistName;
-    EditText songTitle;
+    EditText artistNameEditText;
+    EditText songTitleEditText;
+    Button toSavedFavouritesButton;
     Button searchAPIButton;
+    Button searchGoogleButton;
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
+    NavigationView navigationView;
+    Intent searchGoogle;
+    Intent nextPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lyrics_activity_main);
 
-        toSavedFavourites = findViewById(R.id.savedFavouritesButton);
-        artistName = findViewById(R.id.enterArtistName);
-        songTitle = findViewById(R.id.enterSongTitle);
+        setTitle(getResources().getString(R.string.lyricsActivityName));
+
+        toSavedFavouritesButton = findViewById(R.id.savedFavouritesButton);
+        artistNameEditText = findViewById(R.id.enterArtistName);
+        songTitleEditText = findViewById(R.id.enterSongTitle);
         searchAPIButton = findViewById(R.id.searchAPIButton);
+        searchGoogleButton = findViewById(R.id.searchButton);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         loadToolbar();
 
-        searchAPIButton.setOnClickListener(lb -> {
+        searchGoogleButton.setOnClickListener(click -> {
+            artist = artistNameEditText.getText().toString();
+            title = songTitleEditText.getText().toString();
+
+            String url = "https://www.google.com/search?q=" + artist + "+" + title;
+            searchGoogle = new Intent(Intent.ACTION_VIEW);
+            searchGoogle.setData(Uri.parse(url));
+            startActivity(searchGoogle);
+        });
+
+        searchAPIButton.setOnClickListener(click -> {
             InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(songTitle.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(songTitleEditText.getWindowToken(), 0);
 
             progressBar.setVisibility(View.VISIBLE);
-            artist = artistName.getText().toString();
-            title = songTitle.getText().toString();
+            artist = artistNameEditText.getText().toString();
+            title = songTitleEditText.getText().toString();
 
             SongQuery req = new SongQuery();
             String url = "https://api.lyrics.ovh/v1/" +
@@ -77,10 +99,8 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
             req.execute(url);
         });
 
-        toSavedFavourites.setOnClickListener(click -> {
-            Intent nextPage = new Intent(this, LyricsFavouritesActivity.class);
-            nextPage.putExtra("Artist", artistName.getText().toString());
-            nextPage.putExtra("Title", songTitle.getText().toString());
+        toSavedFavouritesButton.setOnClickListener(click -> {
+            nextPage = new Intent(this, LyricsFavouritesActivity.class);
             startActivity(nextPage);
         });
     }
@@ -89,22 +109,21 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.lyrics_favourites_activity_menu, menu);
+        inflater.inflate(R.menu.lyrics_menu, menu);
         return true;
     }
 
     public void loadToolbar() {
-        //Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        toggle = new ActionBarDrawerToggle(this,
+                drawerLayout, toolbar, R.string.lyricsOpen, R.string.lyricsClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -116,17 +135,30 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
         {
             //what to do when the menu item is selected:
 
-            case R.id.donateItem:
-                donateDialog();
+
+//            case R.id.toCityFinderButton:
+//                Intent goToCity = new Intent(this, CityMainActivity.class);
+//                startActivity(goToCity); //make the transition
+//                break;
+//
+//            case R.id.toSoccerButton:
+//                Intent goToSoccer = new Intent(this, SoccerMainActivity.class);
+//                startActivity(goToSoccer); //make the transition
+//                break;
+//
+//            case R.id.toDeezerButton:
+//                Intent goToDeezer = new Intent(this, DeezerMainActivity.class);
+//                startActivity(goToDeezer); //make the transition
+//                break;
+
+            case R.id.aboutProject:
+                message = getResources().getString(R.string.lyricsAboutProject);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
 
-            case R.id.helpItem:
-                helpDialog();
-                break;
         }
         return true;
     }
-
 
     @Override
     public boolean onNavigationItemSelected( MenuItem item) {
@@ -134,11 +166,6 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 
         switch(item.getItemId())
         {
-            case R.id.goToMainPage:
-                Intent nextActivity = new Intent(this, MainActivity.class);
-                startActivity(nextActivity); //make the transition
-                break;
-
             case R.id.donateItem:
                 donateDialog();
                 break;
@@ -147,43 +174,42 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
                 helpDialog();
                 break;
 
-            case R.id.aboutProject:
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lyricsovh.docs.apiary.io/"));
-//                startActivity(browserIntent);
-                Toast.makeText(this, R.string.favouritesInstructionsTitle, Toast.LENGTH_LONG);
+            case R.id.aboutAPI:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lyricsovh.docs.apiary.io/"));
+                startActivity(browserIntent);
                 break;
         }
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return false;
     }
 
+
     public void helpDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.favouritesInstructionsTitle)
-                .setMessage(R.string.favouritesInstructionsBody)
-                .setPositiveButton(R.string.OK, (click, arg) -> {}).create().show();
+        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesInstructionsTitle))
+                .setMessage(getResources().getString(R.string.lyricsFavouritesInstructionsBody))
+                .setPositiveButton("OK", (click, arg) -> {}).create().show();
     }
 
 
     public void donateDialog() {
+        EditText alertDialogEditText = new EditText(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.favouritesDonateTitle)
-                .setMessage(R.string.favouritesDonate)
-                .setPositiveButton(R.string.yes, (click, arg) -> {
-                    Toast.makeText(this, R.string.favouritesThankYou, Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton(R.string.no, (click, arg) -> {
-                    Toast.makeText(this, R.string.favouritesThatsOK, Toast.LENGTH_SHORT).show();
-                }).create().show();
+        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesDonateTitle))
+                .setMessage(getResources().getString(R.string.lyricsDonateBody))
+                .setView(alertDialogEditText)
+                .setPositiveButton(getResources().getString(R.string.lyricsThankYou), (click, arg) -> {})
+                .setNegativeButton(getResources().getString(R.string.lyricsCancel), (click, arg) -> {})
+                .create().show();
     }
 
 
 
     private class SongQuery extends AsyncTask<String, Integer, String> {
-        TextView lyricsTextView = findViewById(R.id.lyricsTextView);
+        TextView lyricsNotFound = findViewById(R.id.lyricsNotFound);
 
         @Override
         protected String doInBackground(String... args) {
@@ -269,7 +295,7 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
                     startActivity(nextActivity); //make the transition
                 }
 
-            } else lyricsTextView.setText("Could not find lyrics.");
+            } else lyricsNotFound.setText(getResources().getString(R.string.lyricsNotFound));
 
             progressBar.setVisibility(View.INVISIBLE);
         }

@@ -27,18 +27,10 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/lyricsActivityName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lyricsActivityName"
-                android:focusable="false" />
-
-            <TextView
                 android:id="@+id/artistName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/artistname"
-                android:layout_below="@id/lyricsActivityName"
+                android:text="@string/lyricsArtistNamePrompt"
                 android:focusable="false" />
 
             <EditText
@@ -46,19 +38,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="@string/enterartistname"
-                android:layout_below="@+id/artistName"
-                android:nextFocusDown="@id/enterSongTitle"
-                android:nextFocusUp="@id/enterSongTitle"
-                android:nextFocusRight="@id/enterSongTitle"
-                android:nextFocusLeft="@id/enterSongTitle"/>
+                android:hint="@string/lyricsArtistNameHint"
+                android:layout_below="@+id/artistName" />
 
             <TextView
                 android:id="@+id/songTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="@string/titlesong"
+                android:text="@string/lyricsSongTitlePrompt"
                 android:layout_below="@+id/enterArtistName"
                 android:focusable="false"/>
 
@@ -68,50 +56,35 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="@string/enterartitlesong"
-                android:layout_below="@+id/songTitle"
-                android:nextFocusDown="@id/searchAPIButton"
-                android:nextFocusUp="@id/searchAPIButton"
-                android:nextFocusRight="@id/searchAPIButton"
-                android:nextFocusLeft="@id/searchAPIButton"/>
+                android:hint="@string/lyricsSongTitleHint"
+                android:layout_below="@+id/songTitle" />
 
             <Button
                 android:id="@+id/searchAPIButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search API"
-                android:layout_below="@+id/enterSongTitle"
-                android:nextFocusDown="@id/searchButton"
-                android:nextFocusUp="@id/searchButton"
-                android:nextFocusRight="@id/searchButton"
-                android:nextFocusLeft="@id/searchButton"/>
+                android:text="@string/lyricsSearchButtonAPI"
+                android:layout_below="@+id/enterSongTitle" />
 
             <Button
                 android:id="@+id/searchButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/searchbutton"
-                android:layout_below="@+id/searchAPIButton"
-                android:nextFocusDown="@id/savedFavouritesButton"
-                android:nextFocusUp="@id/savedFavouritesButton"
-                android:nextFocusRight="@id/savedFavouritesButton"
-                android:nextFocusLeft="@id/savedFavouritesButton"/>
+                android:text="@string/lyricsSearchButtonGoogle"
+                android:layout_below="@+id/searchAPIButton" />
 
             <Button
                 android:id="@+id/savedFavouritesButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="To Saved Favourites"
-                android:layout_below="@+id/searchButton"
-                android:nextFocusDown="@id/enterArtistName"
-                android:nextFocusUp="@id/enterArtistName"
-                android:nextFocusRight="@id/enterArtistName"
-                android:nextFocusLeft="@id/enterArtistName" />
+                android:text="@string/lyricsSavedFavourites"
+                android:layout_below="@+id/searchButton" />
 
             <TextView
-                android:id="@+id/lyricsTextView"
+                android:id="@+id/lyricsNotFound"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:layout_below="@+id/savedFavouritesButton"/>
 
             <ProgressBar
@@ -129,7 +102,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/lyrics_favourites_header_layout"
-            app:menu="@menu/lyrics_favourites_activity_menu"
+            app:menu="@menu/lyrics_navigation_drawer"
             android:id="@+id/nav_view"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,55 @@
+<resources>
+    <string name="appName">Projet Final V2</string>
+    <string name="toLyricsActivity">Programme Recherche des Paroles</string>
+    <string name="toDeezerActivity">Programme Recherche de Chanson Deezer</string>
+    <string name="toSoccerActivity">Programme Football</string>
+    <string name="toCityFinderActivity">Programme Recherche des Villes</string>
+    <string name="lyricsArtistNamePrompt">Artiste: </string>
+    <string name="lyricsArtistNameHint">Tapez le nom d\'artiste.</string>
+    <string name="lyricsSongTitlePrompt">Nom du Chanson: </string>
+    <string name="lyricsSongTitleHint">Tapez le nom du chanson.</string>
+    <string name="lyricsSearchButtonGoogle">Recherche Google</string>
+    <string name="lyricsFragmentButton">CACHER</string>
+    <string name="lyricsSavedFavourites">Chansons Favories enregistrées</string>
+    <string name="lyricsAuthor">Auteur: Yury Berestetsky</string>
+    <string name="lyricsFavouritesSearch">"Recherche: "</string>
+    <string name="lyricsSearchHint">Tapez ici...</string>
+    <string name="lyricsFavouritesSearchButton">MARCHE</string>
+    <string name="lyricsFavouritesSnackbarString">Rien à rechercher. Voici la liste au complet.</string>
+    <string name="lyricsFavouritesDeleteQuestion">Voulez-vous effacer ceci?</string>
+    <string name="lyricsFavouritesDeleteArtist">"Artiste: "</string>
+    <string name="lyricsFavouritesDeleteSong">"Chanson: "</string>
+    <string name="lyricsFavouritesDeleteYes">Oui</string>
+    <string name="lyricsFavouritesDeleteNo">Non</string>
+    <string name="lyricsFavouritesHelpButton">Aide</string>
+    <string name="lyricsFavouritesInstructionsBody">
+        \n- Pour rechercher les paroles d\'une chanson, tapez le nom d\'artiste et cliquez PROGRAMME DE RECHERCHE.
+        \n- Cliquez ENREGISTRER AU LISTE DES FAVORIS pour enregistrer les paroles.
+        \n- Si l\'option ENREGISTRER AU LIST DES FAVORIS manque, les paroles sont déjà enregistrés.
+        \n- Si la programme ne peut pas trouver les paroles, vous pouvez essayer une recherche de Google.
+        \n- Sur la page des Chansons Favories Enregistrées,
+        \n- In \'Saved Favourites\', cliquez une chanson vitement pour voir ses paroles.
+        \n- Cliquez longtemps une chanson favorie enregistrée pour l\'effacer.</string>
+    <string name="lyricsFavouritesInstructionsTitle">Instructions:</string>
+    <string name="lyricsFavouritesFoundOneSong">J\'ai trouvé une chanson.</string>
+    <string name="lyricsFavouritesFoundManySongs1">"J\'ai trouvé "</string>
+    <string name="lyricsFavouritesFoundManySongs2">" chansons."</string>
+    <string name="lyricsOpen">Ouvrir</string>
+    <string name="lyricsClose">Fermer</string>
+    <string name="lyricsFavouritesVersion">Version 2.0</string>
+    <string name="lyricsAboutProject">Ceci est la programme Recherche des Paroles, écrite par Yury Berestetsky</string>
+    <string name="lyricsDonateBody">Combien voulez-vous donner?</string>
+    <string name="lyricsThankYou">Merci</string>
+    <string name="lyricsCancel">Annuler</string>
+    <string name="lyricsDonateTitle">Donner</string>
+    <string name="lyricsSaveToFavourites">Enregistrer aux Chansons Favories</string>
+    <string name="lyricsOK">OK</string>
+    <string name="lyricsActivityName">Recherche des Paroles</string>
+    <string name="lyricsSearchButtonAPI">Programme de Recherche</string>
+    <string name="lyricsFavouritesSearchHint">Tapez ici...</string>
+    <string name="lyricsAboutProjectTitle">Info du Projet</string>
+    <string name="lyricsAboutAPI">Info de la Programme</string>
+    <string name="lyricsDonateButton">Donner</string>
+    <string name="lyricsFavouritesDonateTitle">S\'il-vous-plaît, $oyez généreux.</string>
+    <string name="lyricsNotFound">Je n\'ai pas trouvé les paroles pour cette chanson.</string>
+</resources>

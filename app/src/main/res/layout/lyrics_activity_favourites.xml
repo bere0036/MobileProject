@@ -26,7 +26,7 @@
                 android:id="@+id/pageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/savedFavourites"
+                android:text="@string/lyricsSavedFavourites"
                 android:textSize="30dp"
                 android:textAlignment="center" />
 
@@ -34,7 +34,7 @@
                 android:id="@+id/author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/author"
+                android:text="@string/lyricsAuthor"
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:layout_below="@id/pageTitle"/>
@@ -43,7 +43,7 @@
                 android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/favouritesVersion"
+                android:text="@string/lyricsFavouritesVersion"
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:layout_below="@id/author"/>
@@ -58,7 +58,7 @@
                     android:id="@+id/searchPrompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/favouritesSearch"
+                    android:text="@string/lyricsFavouritesSearch"
                     android:textSize="16dp" />
 
                 <EditText
@@ -66,14 +66,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/searchHint"
+                    android:hint="@string/lyricsSearchHint"
                     android:textSize="16dp" />
 
                 <Button
                     android:id="@+id/favouritesSearchButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/favouritesSearchButton"/>
+                    android:text="@string/lyricsFavouritesSearchButton"/>
 
             </LinearLayout>
 

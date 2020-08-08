@@ -20,5 +20,4 @@ public class LyricsSavedFavourite {
     public String getTitle() { return title; }
 
     public String getLyrics() { return lyrics; }
-
 }

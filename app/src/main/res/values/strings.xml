@@ -1,59 +1,54 @@
 <resources>
-    <string name="app_name">Final Project</string>
-    <string name="artistname">Artist:</string>
-    <string name="enterartistname">Enter Artist Name </string>
-    <string name="titlesong">Song</string>
-    <string name="enterartitlesong">Enter Title Song </string>
-    <string name="searchbutton">Google Search</string>
-    <string name="resultButton">Search Result</string>
-    <string name="saveFav">Save to Favourite</string>
-    <string name="NRVbackbtn">Back</string>
-
-    <string name="result">Result</string>
-    <string name="search">Google Search</string>
-    <string name="type_here">Artist and song</string>
-    <string name="help">help</string>
-    <string name="check_message">check for more information</string>
-    <string name="toast_message">For more information, click on Google</string>
-    <string name="toast_message2">This page is the search result. For more information, please click on Google</string>
-
-    <string name="fragmentButton">HIDE</string>
-    <string name="savedFavourites">Saved Favourites</string>
-    <string name="author">Author: Yury Berestetsky</string>
-    <string name="favouritesSearch">"Search: "</string>
-    <string name="searchHint">Type here...</string>
-    <string name="favouritesSearchButton">GO</string>
-    <string name="favouritesSnackbarString">No search term entered. Showing whole list.</string>
-    <string name="lastSearch">"Last search: "</string>
-    <string name="favouritesDeleteQuestion">Do you want to delete this?</string>
-    <string name="favouritesDeleteArtist">"Artist: "</string>
-    <string name="favouritesDeleteSong">"Song: "</string>
-    <string name="favouritesDeleteYes">Yes</string>
-    <string name="favouritesDeleteNo">No</string>
-    <string name="favouritesHelpButton">Help</string>
-    <string name="favouritesInstructionsBody">- Click on a song in the list to see its lyrics.\n- Search for a song title or artist in the search window.\n- Long press a song to delete it from the list.</string>
-    <string name="favouritesInstructionsTitle">Instructions for this page:</string>
-    <string name="favouritesFoundOneSong">Found one song.</string>
-    <string name="favouritesFoundManySongs1">"Found "</string>
-    <string name="favouritesFoundManySongs2">" songs."</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="favouritesVersion">Version 1.0</string>
-    <string name="favouritesAboutProject">About This Project</string>
-    <string name="favouritesWhatIsMusic">Music</string>
-    <string name="favouritesMusicDefinition">Webster\'s dictionary defines music as vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony.</string>
-    <string name="favouritesDonate">Would you like to donate $10 to fund this project?</string>
-    <string name="favouritesThankYou">Thank you!</string>
-    <string name="favouritesThatsOK">That\'s OK!</string>
-    <string name="favouritesMusicDefinitionTitle">What is music?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="favouritesDonateTitle">Donate?</string>
-    <string name="goToMainPage">Go to Main Page</string>
-    <string name="saveToFavourites">Save to Favourites</string>
-    <string name="OK">OK</string>
     <string name="appName">Final Project V2</string>
+    <string name="toLyricsActivity">To Lyrics Activity</string>
+    <string name="toDeezerActivity">To Deezer Song Search Activity</string>
+    <string name="toSoccerActivity">To Soccer Activity</string>
+    <string name="toCityFinderActivity">To City Finder Activity</string>
+    <string name="lyricsArtistNamePrompt">Artist: </string>
+    <string name="lyricsArtistNameHint">Enter Artist Name </string>
+    <string name="lyricsSongTitlePrompt">Song Title: </string>
+    <string name="lyricsSongTitleHint">Enter Title Song </string>
+    <string name="lyricsSearchButtonGoogle">Google Search</string>
+    <string name="lyricsFragmentButton">HIDE</string>
+    <string name="lyricsSavedFavourites">Saved Favourites</string>
+    <string name="lyricsAuthor">Author: Yury Berestetsky</string>
+    <string name="lyricsFavouritesSearch">"Search: "</string>
+    <string name="lyricsSearchHint">Type here...</string>
+    <string name="lyricsFavouritesSearchButton">GO</string>
+    <string name="lyricsFavouritesSnackbarString">No search term entered. Showing whole list.</string>
+    <string name="lyricsFavouritesDeleteQuestion">Do you want to delete this?</string>
+    <string name="lyricsFavouritesDeleteArtist">"Artist: "</string>
+    <string name="lyricsFavouritesDeleteSong">"Song: "</string>
+    <string name="lyricsFavouritesDeleteYes">Yes</string>
+    <string name="lyricsFavouritesDeleteNo">No</string>
+    <string name="lyricsFavouritesHelpButton">Help</string>
+    <string name="lyricsFavouritesInstructionsBody">
+        \n- To find lyrics to a song, enter the artist and title and click SEARCH API
+        \n- Click \'Save to Favourites\' to save the lyrics.
+        \n- If \'Save to Favourites\' option is missing, then lyrics are already saved.
+        \n- If lyrics can\'t be found in the API, you can try Google.
+        \n- In \'Saved Favourites\', quickly click on a song in the list to see its lyrics.
+        \n- Long click a saved favourite to delete it.</string>
+    <string name="lyricsFavouritesInstructionsTitle">Instructions for this page:</string>
+    <string name="lyricsFavouritesFoundOneSong">Found one song.</string>
+    <string name="lyricsFavouritesFoundManySongs1">"Found "</string>
+    <string name="lyricsFavouritesFoundManySongs2">" songs."</string>
+    <string name="lyricsOpen">Open</string>
+    <string name="lyricsClose">Close</string>
+    <string name="lyricsFavouritesVersion">Version 1.0</string>
+    <string name="lyricsAboutProject">This is the Song Lyrics activity, written by Yury Berestetsky</string>
+    <string name="lyricsThankYou">Thank You</string>
+    <string name="lyricsCancel">Cancel</string>
+    <string name="lyricsFavouritesDonateTitle">Please give generou$ly</string>
+    <string name="lyricsSaveToFavourites">Save to Favourites</string>
+    <string name="lyricsOK">OK</string>
     <string name="lyricsActivityName">Song Lyrics Search</string>
-
-
+    <string name="lyricsSearchButtonAPI">Search API</string>
+    <string name="lyricsFavouritesSearchHint">Type here...</string>
+    <string name="lyricsAboutProjectTitle">About Project</string>
+    <string name="lyricsAboutAPI">About API</string>
+    <string name="lyricsDonateTitle">Donate</string>
+    <string name="lyricsDonateBody">How much would you like to donate?</string>
+    <string name="lyricsDonateButton">Donate</string>
+    <string name="lyricsNotFound">Lyrics not found.</string>
 </resources>

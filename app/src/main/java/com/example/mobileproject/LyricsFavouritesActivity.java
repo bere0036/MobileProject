@@ -48,26 +48,39 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
     public static final String LYRICS = "LYRICS";
 
     SharedPreferences prefs = null;
-    private ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
+    protected ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
     private MyListAdapter myAdapter;
     SQLiteDatabase db;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle toggle;
+    String savedString;
+    EditText favouritesSearchInput;
+    ListView myList;
+    Button favouritesSearchButton;
+    String searchTerm;
+    InputMethodManager imm;
+    NavigationView navigationView;
+    Intent searchGoogle;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lyrics_activity_favourites);
 
+        setTitle(getResources().getString(R.string.lyricsActivityName));
+
         //Getting the last performed search back as a hint
         prefs = getSharedPreferences("Last Lookup", Context.MODE_PRIVATE);
-        String savedString = prefs.getString("Last Lookup", "");
-        EditText favouritesSearchInput = findViewById(R.id.favouritesSearch);
-        favouritesSearchInput.setHint(R.string.lastSearch + savedString);
+        savedString = prefs.getString("Last Lookup", "");
+        favouritesSearchInput = findViewById(R.id.favouritesSearch);
+        favouritesSearchInput.setHint(savedString);
 
         loadToolbar();
 
 
         //Show list of songs
-        ListView myList = findViewById(R.id.myListView);
+        myList = findViewById(R.id.myListView);
         boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         loadDataFromDatabase(false, null);
@@ -75,14 +88,13 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         myAdapter = new MyListAdapter();
         myList.setAdapter( myAdapter);
 
-
-        Button favouritesSearchButton = findViewById(R.id.favouritesSearchButton);
+        favouritesSearchButton = findViewById(R.id.favouritesSearchButton);
         favouritesSearchButton.setOnClickListener(click -> {
             //Saving user's most recent search to display again next time
 
             saveSharedPrefs(favouritesSearchInput.getText().toString());
 
-            String searchTerm = favouritesSearchInput.getText().toString();
+            searchTerm = favouritesSearchInput.getText().toString();
 
             //If something was typed into the search bar
             if (searchTerm.length() > 0) {
@@ -90,13 +102,13 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
                 myAdapter.notifyDataSetChanged();
             } else {
                 //Nothing was typed in
-                Snackbar.make(favouritesSearchButton, R.string.favouritesSnackbarString, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(favouritesSearchButton, getResources().getString(R.string.lyricsFavouritesSnackbarString), Snackbar.LENGTH_SHORT).show();
                 loadDataFromDatabase(false, null);
                 myAdapter.notifyDataSetChanged();
             }
 
             //Hide Keyboard
-            InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
+            imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(favouritesSearchInput.getWindowToken(), 0);
         });
 
@@ -118,7 +130,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
                         .commit(); //actually load the fragment. Calls onCreate() in DetailFragment
             } else {
                 //isPhone
-                Intent nextActivity = new Intent(LyricsFavouritesActivity.this, LyricsEmptyActivity.class);
+                Intent nextActivity = new Intent(this, LyricsEmptyActivity.class);
                 nextActivity.putExtras(dataToPass); //send data to next activity
                 startActivity(nextActivity); //make the transition
             }
@@ -127,15 +139,15 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
         myList.setOnItemLongClickListener( (parent, view, position, id) -> {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle(R.string.favouritesDeleteQuestion)
-                    .setMessage(R.string.favouritesDeleteArtist + elements.get(position).getArtist()
-                            + "\n" + R.string.favouritesDeleteSong + elements.get(position).getTitle())
-                    .setPositiveButton(R.string.favouritesDeleteYes, (click, arg) -> {
+            alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesDeleteQuestion))
+                    .setMessage(getResources().getString(R.string.lyricsFavouritesDeleteArtist) + elements.get(position).getArtist()
+                            + "\n" + getResources().getString(R.string.lyricsFavouritesDeleteSong) + elements.get(position).getTitle())
+                    .setPositiveButton(getResources().getString(R.string.lyricsFavouritesDeleteYes), (click, arg) -> {
                         db.delete(LyricsMyOpener.TABLE_NAME, LyricsMyOpener.COL_ID + "= ?", new String[] {Long.toString(elements.get(position).getId())});
                         elements.remove(position);
                         myAdapter.notifyDataSetChanged();
                     })
-                    .setNegativeButton(R.string.favouritesDeleteNo, (click, arg) -> {  })
+                    .setNegativeButton(getResources().getString(R.string.lyricsFavouritesDeleteNo), (click, arg) -> {  })
                     .create().show();
 
             return true;
@@ -153,22 +165,21 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.lyrics_favourites_activity_menu, menu);
+        inflater.inflate(R.menu.lyrics_menu, menu);
         return true;
     }
 
     public void loadToolbar() {
-        //Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
-                drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        toggle = new ActionBarDrawerToggle(this,
+                drawerLayout, toolbar, R.string.lyricsOpen, R.string.lyricsClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -180,12 +191,25 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         {
             //what to do when the menu item is selected:
 
-            case R.id.donateItem:
-                donateDialog();
-                break;
 
-            case R.id.helpItem:
-                helpDialog();
+//            case R.id.toCityFinderButton:
+//                Intent goToCity = new Intent(this, CityMainActivity.class);
+//                startActivity(goToCity); //make the transition
+//                break;
+//
+//            case R.id.toSoccerButton:
+//                Intent goToSoccer = new Intent(this, SoccerMainActivity.class);
+//                startActivity(goToSoccer); //make the transition
+//                break;
+//
+//            case R.id.toDeezerButton:
+//                Intent goToDeezer = new Intent(this, DeezerMainActivity.class);
+//                startActivity(goToDeezer); //make the transition
+//                break;
+
+            case R.id.aboutProject:
+                message = getResources().getString(R.string.lyricsAboutProject);
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
         }
         return true;
@@ -205,13 +229,13 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
                 helpDialog();
                 break;
 
-            case R.id.aboutProject:
+            case R.id.aboutAPI:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://lyricsovh.docs.apiary.io/"));
                 startActivity(browserIntent);
                 break;
         }
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
 
         return false;
@@ -220,24 +244,22 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
     public void helpDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.favouritesInstructionsTitle)
-                .setMessage(R.string.favouritesInstructionsBody)
+        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesInstructionsTitle))
+                .setMessage(getResources().getString(R.string.lyricsFavouritesInstructionsBody))
                 .setPositiveButton("OK", (click, arg) -> {}).create().show();
     }
 
 
     public void donateDialog() {
+        EditText alertDialogEditText = new EditText(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(R.string.favouritesDonateTitle)
-                .setMessage(R.string.favouritesDonate)
-                .setPositiveButton(R.string.yes, (click, arg) -> {
-                    Toast.makeText(this, R.string.favouritesThankYou, Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton(R.string.no, (click, arg) -> {
-                    Toast.makeText(this, R.string.favouritesThatsOK, Toast.LENGTH_SHORT).show();
-                }).create().show();
+        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsDonateTitle))
+                .setMessage(getResources().getString(R.string.lyricsDonateBody))
+                .setView(alertDialogEditText)
+                .setPositiveButton(getResources().getString(R.string.lyricsThankYou), (click, arg) -> {})
+                .setNegativeButton(getResources().getString(R.string.lyricsCancel), (click, arg) -> {})
+                .create().show();
     }
-
 
     private void loadDataFromDatabase(boolean searching, String searchTerm) {
         //get a database connection"
@@ -252,7 +274,8 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
             searchTerm = "%" + searchTerm + "%";
             elements.clear();
             String[] args = {searchTerm, searchTerm};
-            results = db.query(false, LyricsMyOpener.TABLE_NAME, columns,  LyricsMyOpener.COL_ARTIST + " LIKE ? OR " + LyricsMyOpener.COL_TITLE + " LIKE ?" , args, null, null, null, null);
+            results = db.query(false, LyricsMyOpener.TABLE_NAME, columns,
+                    LyricsMyOpener.COL_ARTIST + " LIKE ? OR " + LyricsMyOpener.COL_TITLE + " LIKE ?" , args, null, null, null, null);
         } else {
             elements.clear();
             results = db.query(false, LyricsMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
@@ -274,9 +297,10 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         }
 
         if (elements.size() == 1)
-            Toast.makeText(this, R.string.favouritesFoundOneSong, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.lyricsFavouritesFoundOneSong), Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(this, R.string.favouritesFoundManySongs1 + elements.size() + R.string.favouritesFoundManySongs2, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.lyricsFavouritesFoundManySongs1) + elements.size() +
+                    getResources().getString(R.string.lyricsFavouritesFoundManySongs2), Toast.LENGTH_SHORT).show();
     }
 
     class MyListAdapter extends BaseAdapter implements ListAdapter {

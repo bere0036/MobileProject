@@ -44,10 +44,11 @@ public class LyricsDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Put artist and title in titlecase if not already; Fix extra spacing problem if present.
         dataFromActivity = getArguments();
-        artist = dataFromActivity.getString( LyricsFavouritesActivity.ARTIST);
-        title = dataFromActivity.getString( LyricsFavouritesActivity.TITLE);
-        lyrics = dataFromActivity.getString( LyricsFavouritesActivity.LYRICS);
+        artist = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.ARTIST));
+        title = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.TITLE));
+        lyrics = spacingFixer(dataFromActivity.getString( LyricsFavouritesActivity.LYRICS));
 
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.lyrics_fragment_details, container, false);
@@ -63,6 +64,7 @@ public class LyricsDetailsFragment extends Fragment {
         //show the lyrics
         TextView lyricsTextView = result.findViewById(R.id.songLyrics);
         lyricsTextView.setText(lyrics);
+
 
         // get the delete button, and add a click listener:
         hideButton = result.findViewById(R.id.fragmentButton);
@@ -90,8 +92,8 @@ public class LyricsDetailsFragment extends Fragment {
         saveToFavourites.setOnClickListener(click -> {
             ContentValues newRowValues = new ContentValues();
 
-            newRowValues.put(LyricsMyOpener.COL_ARTIST, toTitleCase(artist.toLowerCase()));
-            newRowValues.put(LyricsMyOpener.COL_TITLE, toTitleCase(title.toLowerCase()));
+            newRowValues.put(LyricsMyOpener.COL_ARTIST, artist);
+            newRowValues.put(LyricsMyOpener.COL_TITLE, title);
             newRowValues.put(LyricsMyOpener.COL_LYRICS, lyricsTextView.getText().toString());
 
 
@@ -148,5 +150,11 @@ public class LyricsDetailsFragment extends Fragment {
                     .append(arr[i].substring(1)).append(" ");
         }
         return sb.toString().trim();
+    }
+
+    public static String spacingFixer(String givenString) {
+        givenString.replace("\n\n\n\n", "\n\n");
+        givenString.replace("\n\n", "\n");
+        return givenString;
     }
 }
