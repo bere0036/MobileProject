@@ -205,7 +205,7 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
                 alertDialogBuilder.setPositiveButton("THANK YOU", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Entered: "+userInput.getText().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Thank you for donated "+userInput.getText().toString(), Toast.LENGTH_LONG).show();
                     }
                 });
                 alertDialogBuilder.setNegativeButton("CANCEL", null);
