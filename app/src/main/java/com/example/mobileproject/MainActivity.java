@@ -13,13 +13,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button toLyricsMain = findViewById(R.id.toLyricsMain);
+
+        toLyricsMain.setOnClickListener( click -> {
+            Intent nextActivity = new Intent(this, LyricsMainActivity.class);
+            startActivity(nextActivity); //make the transition
+        });
+
         Button toDeezerMain = findViewById(R.id.toSongAPI);
 
         toDeezerMain.setOnClickListener( click -> {
             Intent nextActivity = new Intent(this, DeezerSongSearchMain.class);
             startActivity(nextActivity); //make the transition
-
-
         });
 
 //        Button toCityActivity = findViewById(R.id.toCityFinder);
@@ -29,12 +34,6 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(nextActivity); //make the transition
 //        });
 //
-//        Button toDeezerActivity = findViewById(R.id.toSongAPI);
-//
-//        toCityActivity.setOnClickListener( click -> {
-//            Intent nextActivity = new Intent(this, DeezerMainActivity.class);
-//            startActivity(nextActivity); //make the transition
-//        });
 //
 //        Button toSoccerActivity = findViewById(R.id.toSoccer);
 //

@@ -205,10 +205,10 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 //                startActivity(goToSoccer); //make the transition
 //                break;
 //
-//            case R.id.toDeezerButton:
-//                Intent goToDeezer = new Intent(this, DeezerMainActivity.class);
-//                startActivity(goToDeezer); //make the transition
-//                break;
+            case R.id.toDeezerIcon:
+                Intent nextActivity = new Intent(this, DeezerSongSearchMain.class);
+                startActivity(nextActivity); //make the transition
+                break;
 
             case R.id.aboutProject:
                 message = getResources().getString(R.string.lyricsAboutProject);
