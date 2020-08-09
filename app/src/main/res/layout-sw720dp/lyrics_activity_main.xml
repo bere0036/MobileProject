@@ -37,7 +37,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lyricsArtistNamePrompt"
-                android:layout_below="@id/appName"/>
+                android:layout_below="@id/appName"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/enterArtistName"
@@ -53,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:text="@string/lyricsSongTitlePrompt"
-                android:layout_below="@+id/enterArtistName"/>
+                android:layout_below="@+id/enterArtistName"
+                android:focusable="false"/>
 
             <EditText
                 android:id="@+id/enterSongTitle"
@@ -85,17 +87,12 @@
                 android:text="@string/lyricsSavedFavourites"
                 android:layout_below="@+id/searchButton"/>
 
-            <TextView
-                android:id="@+id/lyricsTextView"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/savedFavouritesButton"/>
-
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lyricsTextView"/>
+                android:layout_below="@+id/savedFavouritesButton"
+                android:focusable="false"/>
 
             <FrameLayout
                 android:id="@+id/fragmentLocation"

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,18 +11,12 @@ import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
+
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class LyricsDetailsFragment extends Fragment {
@@ -38,6 +31,9 @@ public class LyricsDetailsFragment extends Fragment {
     private ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
     Button saveToFavourites;
     Button hideButton;
+    TextView artistTextView;
+    TextView titleTextView;
+    TextView lyricsTextView;
 
 
     @Override
@@ -54,15 +50,15 @@ public class LyricsDetailsFragment extends Fragment {
         View result =  inflater.inflate(R.layout.lyrics_fragment_details, container, false);
 
         //show the artist
-        TextView artistTextView = result.findViewById(R.id.artistName);
+        artistTextView = result.findViewById(R.id.artistName);
         artistTextView.setText(artist);
 
         //show the title
-        TextView titleTextView = result.findViewById(R.id.songTitle);
+        titleTextView = result.findViewById(R.id.songTitle);
         titleTextView.setText(title);
 
         //show the lyrics
-        TextView lyricsTextView = result.findViewById(R.id.songLyrics);
+        lyricsTextView = result.findViewById(R.id.songLyrics);
         lyricsTextView.setText(lyrics);
 
 
@@ -78,16 +74,14 @@ public class LyricsDetailsFragment extends Fragment {
 
         saveToFavourites = result.findViewById(R.id.saveToFavourites);
 
-
         loadDataFromDatabase();
 
         for (int i=0; i<elements.size(); i++) {
-            if (elements.get(i).getArtist().equals(artist) && elements.get(i).getTitle().equals(title))
+            if (elements.get(i).getArtist().equals(artist) && elements.get(i).getTitle().equals(title)) {
                 saveToFavourites.setVisibility(View.INVISIBLE);
                 break;
+            }
         }
-
-
 
         saveToFavourites.setOnClickListener(click -> {
             ContentValues newRowValues = new ContentValues();
@@ -153,8 +147,8 @@ public class LyricsDetailsFragment extends Fragment {
     }
 
     public static String spacingFixer(String givenString) {
-        givenString.replace("\n\n\n\n", "\n\n");
         givenString.replace("\n\n", "\n");
+        givenString.replace("\n\n\n\n", "\n\n");
         return givenString;
     }
 }

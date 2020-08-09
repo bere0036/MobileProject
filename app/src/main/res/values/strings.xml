@@ -54,6 +54,7 @@
 
 
 
+
     <string name="soccer_app_title"> scorebat soccer highlights </string>
     <string name="Soccer_author"> Author: Robert Nix </string>
     <string name="Soccer_version"> Version 1.0 </string>
@@ -61,4 +62,14 @@
     <string name="Soccer_looking_for"> enter title of soccer match below </string>
     <string name="Soccer_enter_info_here"> enter title here </string>
     <string name="toSongSearch"> to song search activity </string>
+    <string name="deezer_songSearch">Song Search</string>
+    <string name="deezer_enterNameText">Enter Artist\'s Name:</string>
+    <string name="deezer_nameEditText">Name</string>
+    <string name="deezer_searchButton">SEARCH</string>
+    <string name="deezer_favButton">FAVOURITES</string>
+    <string name="deezer_listView_artistName">Artists Name</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name= "item1"></string>
+
 </resources>
