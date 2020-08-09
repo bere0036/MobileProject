@@ -151,9 +151,4 @@ public class LyricsDetailsFragment extends Fragment {
         givenString.replace("\n\n\n\n", "\n\n");
         return givenString;
     }
-
-    public void clear() {
-        getFragmentManager().beginTransaction().remove(this).commit();
-        getFragmentManager().popBackStackImmediate();
-    }
 }
