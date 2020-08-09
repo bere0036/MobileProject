@@ -13,11 +13,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button toLyricsActivity = findViewById(R.id.toLyricsMain);
+        Button toDeezerMain = findViewById(R.id.toSongAPI);
 
-        toLyricsActivity.setOnClickListener( click -> {
-            Intent nextActivity = new Intent(this, LyricsMainActivity.class);
+        toDeezerMain.setOnClickListener( click -> {
+            Intent nextActivity = new Intent(this, DeezerSongSearchMain.class);
             startActivity(nextActivity); //make the transition
+
+
         });
 
     }
