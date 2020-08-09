@@ -30,7 +30,7 @@ public class DeezerFavouriteList extends AppCompatActivity implements Navigation
 
     ListView listFavouriteSongs;
     ArrayList<DeezerSongs> songs;
-    FavouriteListAdapter favouriteListAdapter;
+    FavouriteSongsAdapter favouriteSongsAdapter;
     private DeezerOpener deezerSongDb;
 
     @Override
@@ -57,7 +57,7 @@ public class DeezerFavouriteList extends AppCompatActivity implements Navigation
 
         listFavouriteSongs = findViewById(R.id.songtrackList);
 
-        //set listener to entries, click to enter DeezerSongDetailDelete
+        //in favourite page, can do delete
         listFavouriteSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -65,8 +65,6 @@ public class DeezerFavouriteList extends AppCompatActivity implements Navigation
                 DeezerSongs selectedSong  = (DeezerSongs) parent.getItemAtPosition(position);
                 intent.putExtra("songDetails", selectedSong);
                 startActivity(intent);
-
-
             }
         });
     }
@@ -154,16 +152,17 @@ public class DeezerFavouriteList extends AppCompatActivity implements Navigation
         super.onResume();
         //get all favourite songs from database
         songs = deezerSongDb.getFavouriteSongs();
-        favouriteListAdapter = new FavouriteListAdapter(this, songs);
-        listFavouriteSongs.setAdapter(favouriteListAdapter);
+        favouriteSongsAdapter = new FavouriteSongsAdapter(this, songs);
+        listFavouriteSongs.setAdapter(favouriteSongsAdapter);
     }
 
-    public class FavouriteListAdapter extends BaseAdapter {
+    //connect arraylist to listView in the layout
+    public class FavouriteSongsAdapter extends BaseAdapter {
 
         LayoutInflater inflater;
         ArrayList<DeezerSongs> songs;
 
-        FavouriteListAdapter(Context context, ArrayList<DeezerSongs> songs) {
+        FavouriteSongsAdapter(Context context, ArrayList<DeezerSongs> songs) {
             this.songs = songs;
             inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -188,7 +187,7 @@ public class DeezerFavouriteList extends AppCompatActivity implements Navigation
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.activity_deezer_songs, parent, false);
             }
-            //set the data in listview
+            //set the data to listview
             TextView textSongTitle = convertView.findViewById(R.id.textSongName);
             String songTitle = songs.get(position).getTitle();
             textSongTitle.setText(songTitle);

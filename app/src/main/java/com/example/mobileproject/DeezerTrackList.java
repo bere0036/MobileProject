@@ -42,7 +42,7 @@ public class DeezerTrackList extends AppCompatActivity implements NavigationView
     ListView trackListView;
     String trackListUrl = "";
     ArrayList<DeezerSongs> songs;
-    DeezerAdapter trackListAdapter;
+    DeezerTrackListAdapter trackListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,9 @@ public class DeezerTrackList extends AppCompatActivity implements NavigationView
 
         //initial views
         trackListView = findViewById(R.id.songtrackList);
+
         songs = new ArrayList<>();
-        trackListAdapter = new DeezerAdapter(this, songs);
+        trackListAdapter = new DeezerTrackListAdapter(this, songs);
         trackListView.setAdapter(trackListAdapter);
         trackListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,7 +81,7 @@ public class DeezerTrackList extends AppCompatActivity implements NavigationView
         });
         //get trackList
         trackListUrl = getIntent().getStringExtra("tracklist_url");
-        new GetTrackList(trackListUrl).execute();
+        new TrackListQuery(trackListUrl).execute();
     }
 
     @Override
@@ -161,11 +162,11 @@ public class DeezerTrackList extends AppCompatActivity implements NavigationView
         return false;
     }
 
-    class GetTrackList extends AsyncTask<Void, Void, String> {
+    class TrackListQuery extends AsyncTask<Void, Void, String> {
 
         String trackListUrl;
 
-        public GetTrackList(String trackListUrl) {
+        public TrackListQuery(String trackListUrl) {
             this.trackListUrl = trackListUrl;
         }
 
@@ -227,11 +228,11 @@ public class DeezerTrackList extends AppCompatActivity implements NavigationView
         }
     }
 
-    public class DeezerAdapter extends BaseAdapter {
+    public class DeezerTrackListAdapter extends BaseAdapter {
         private Context context;
         private ArrayList<DeezerSongs> list;
 
-        public DeezerAdapter(Context context, ArrayList<DeezerSongs> list){
+        public DeezerTrackListAdapter(Context context, ArrayList<DeezerSongs> list){
             this.context = context;
             this.list = list;
         }

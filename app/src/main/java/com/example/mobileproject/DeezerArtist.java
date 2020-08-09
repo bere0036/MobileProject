@@ -19,5 +19,6 @@ public class DeezerArtist {
     public void setTracklist(String tracklist) {
         this.tracklist = tracklist;
     }
+
 }
 

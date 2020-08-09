@@ -121,20 +121,12 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
     @Override
     public void onPause(){
         super.onPause();
-
-        if(artistName.getText().toString().equals("")){
-            //puts the last entered artist's name into pref if nothing is currently written in the EditText
-            SharedPreferences.Editor edit = pref.edit();
-            edit.putString(Artist, artist);
-            edit.commit();
-        }else {
-            //puts whatever is currently written in the EditText into pref
+            //puts name in the EditText into pref
             String artistEditText = artistName.getText().toString();
             SharedPreferences.Editor edit = pref.edit();
             edit.putString(Artist, artistEditText);
             edit.commit();
         }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

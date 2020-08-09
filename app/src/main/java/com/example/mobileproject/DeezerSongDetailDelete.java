@@ -38,7 +38,7 @@ public class DeezerSongDetailDelete extends AppCompatActivity implements Navigat
     CoordinatorLayout layout;
     //bitmap to store in database
     Bitmap albumBitmap = null;
-    String songTitle, albumName, imagePath;
+    String songTitle, albumName, imageURL;
     long songId;
     int duration;
     DeezerOpener deezerSongDatabse;
@@ -81,8 +81,8 @@ public class DeezerSongDetailDelete extends AppCompatActivity implements Navigat
             songTitle = song.getTitle();
             duration = song.getDuration();
             albumName = song.getAlbum();
-            imagePath = song.getCoverURL();
-            new LoadImage(imagePath).execute();
+            imageURL = song.getCoverURL();
+            new AlbumImage(imageURL).execute();
             textSongTitle.setText(songTitle);
             textSongDuration.setText(String.valueOf(duration));
             textAlbumTitle.setText(albumName);
@@ -169,11 +169,11 @@ public class DeezerSongDetailDelete extends AppCompatActivity implements Navigat
 
 
     //load image from URL
-    class LoadImage extends AsyncTask<Void, Void, Bitmap> {
+    class AlbumImage extends AsyncTask<Void, Void, Bitmap> {
 
         String imageUrl;
 
-        LoadImage(String imageUrl) {
+        AlbumImage(String imageUrl) {
             this.imageUrl = imageUrl;
         }
 

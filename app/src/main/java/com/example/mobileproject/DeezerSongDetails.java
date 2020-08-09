@@ -38,7 +38,7 @@ public class DeezerSongDetails extends AppCompatActivity implements NavigationVi
     CoordinatorLayout layout;
     //bitmap to store in database
     Bitmap albumBitmap = null;
-    String songTitle, albumName, imagePath;
+    String songTitle, albumName, imageURL;
     long songId;
     int duration;
     DeezerOpener deezerSongDatabse;
@@ -71,10 +71,11 @@ public class DeezerSongDetails extends AppCompatActivity implements NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
 
         //save button OnClickListener
+        //insert song to fav database
         buttonSave.setOnClickListener(click -> {
             DeezerSongs song = new DeezerSongs();
             song.setTitle(songTitle);
-            song.setCoverURL(imagePath);
+            song.setCoverURL(imageURL);
             song.setDuration(duration);
             song.setAlbum(albumName);
             song.setId(songId);
@@ -82,6 +83,7 @@ public class DeezerSongDetails extends AppCompatActivity implements NavigationVi
 
             Toast.makeText(getApplicationContext(), "Added to Favourites", Toast.LENGTH_LONG).show();
         });
+
         //load song data
         DeezerSongs song = (DeezerSongs) getIntent().getSerializableExtra("songDetails");
         songId = song.getId();
@@ -89,8 +91,9 @@ public class DeezerSongDetails extends AppCompatActivity implements NavigationVi
             songTitle = song.getTitle();
             duration = song.getDuration();
             albumName = song.getAlbum();
-            imagePath = song.getCoverURL();
-            new LoadImage(imagePath).execute();
+            imageURL = song.getCoverURL();
+            new AlbumImage(imageURL).execute();
+
             textSongTitle.setText(songTitle);
             textSongDuration.setText(String.valueOf(duration));
             textAlbumTitle.setText(albumName);
@@ -176,11 +179,11 @@ public class DeezerSongDetails extends AppCompatActivity implements NavigationVi
     }
 
     //load image from URL
-    class LoadImage extends AsyncTask<Void, Void, Bitmap> {
+    class AlbumImage extends AsyncTask<Void, Void, Bitmap> {
 
         String imageUrl;
 
-        LoadImage(String imageUrl) {
+        AlbumImage(String imageUrl) {
             this.imageUrl = imageUrl;
         }
 
