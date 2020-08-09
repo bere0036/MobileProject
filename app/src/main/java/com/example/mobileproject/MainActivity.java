@@ -13,12 +13,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Button toSoccerActivity = findViewById(R.id.toSoccer);
+
         Button toLyricsMain = findViewById(R.id.toLyricsMain);
 
         toLyricsMain.setOnClickListener( click -> {
             Intent nextActivity = new Intent(this, LyricsMainActivity.class);
             startActivity(nextActivity); //make the transition
         });
+
+
+
+        toSoccerActivity.setOnClickListener( click -> {
+            Intent soccerActivity = new Intent (this, SoccerMainActivity.class);
+            startActivity(soccerActivity); // transition to soccer high lights
+        } );
 
         Button toDeezerMain = findViewById(R.id.toSongAPI);
 
@@ -27,20 +37,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(nextActivity); //make the transition
         });
 
-//        Button toCityActivity = findViewById(R.id.toCityFinder);
-//
-//        toCityActivity.setOnClickListener( click -> {
-//            Intent nextActivity = new Intent(this, CityMainActivity.class);
-//            startActivity(nextActivity); //make the transition
-//        });
-//
-//
-//        Button toSoccerActivity = findViewById(R.id.toSoccer);
-//
-//        toCityActivity.setOnClickListener( click -> {
-//            Intent nextActivity = new Intent(this, SoccerMainActivity.class);
-//            startActivity(nextActivity); //make the transition
-//        });
+        Button toCityActivity = findViewById(R.id.toCityFinder);
+
+         toCityActivity.setOnClickListener( click -> {
+             Intent nextActivity = new Intent(this, CityMainActivity.class);
+             startActivity(nextActivity); //make the transition
+         });
 
 
     }
