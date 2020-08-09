@@ -22,6 +22,8 @@
         <activity android:name=".LyricsMainActivity" />
         <activity android:name=".LyricsFavouritesActivity" />
         <activity android:name=".LyricsEmptyActivity" />
+        <activity android:name = ".SoccerMainActivity" />
+        <activity android:name= ".SoccerFavouritesActivity" />
 
     </application>
 

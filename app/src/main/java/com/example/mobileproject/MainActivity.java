@@ -14,11 +14,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button toLyricsActivity = findViewById(R.id.toLyricsMain);
+        Button toSoccerActivity = findViewById(R.id.toSoccer);
 
         toLyricsActivity.setOnClickListener( click -> {
             Intent nextActivity = new Intent(this, LyricsMainActivity.class);
             startActivity(nextActivity); //make the transition
         });
+
+
+        toSoccerActivity.setOnClickListener( click -> {
+            Intent soccerActivity = new Intent (this, SoccerMainActivity.class);
+            startActivity(soccerActivity); // transition to soccer high lights
+        } );
 
     }
 }
