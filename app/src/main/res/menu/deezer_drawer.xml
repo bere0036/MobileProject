@@ -15,4 +15,13 @@
         android:icon="@drawable/dollar"
         app:showAsAction="always"
         android:orderInCategory="600"/>
+
+    <item
+        android:title="Back"
+        android:id="@+id/back"
+        android:icon="@drawable/back"
+        app:showAsAction="always"
+        android:orderInCategory="600"/>
+
+
 </menu>

@@ -48,7 +48,7 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
     public final static String Artist = "artistKey";
     private ArrayList<DeezerArtist> deezerArtistList = new ArrayList<>();
     private DeezerArtistAdapter Artistadapter = new DeezerArtistAdapter(this, deezerArtistList);
-
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,8 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
         Button searchButton = findViewById(R.id.searchButton);
         Button favButton = findViewById(R.id.deezerFavouritesButton);
         ListView myList = findViewById(R.id.deezerListView);
+        progressBar = findViewById(R.id.deezerProgressBar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         pref = getSharedPreferences(myPreference, Context.MODE_PRIVATE);
 
@@ -72,7 +74,8 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
             myList.setAdapter(Artistadapter);
             //get user input artist
             String artist = artistName.getText().toString();
-            //cleat the listview
+            progressBar.setVisibility(View.VISIBLE);
+            //clear the listview
             deezerArtistList.clear();
             Artistadapter.notifyDataSetChanged();
             String deezerURL = "https://api.deezer.com/search/artist/?q=" + artist + "&output=xml";
@@ -112,10 +115,6 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
                 startActivity(intent);
             }
         });
-
-        //setting progressBar to invisible
-        ProgressBar progBar = (ProgressBar) findViewById(R.id.deezerProgressBar);
-        progBar.setVisibility(View.INVISIBLE);
     }
 
     //Stores the text in the search box
@@ -211,7 +210,12 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
                 alertDialogBuilder.setNegativeButton("CANCEL", null);
                 alertDialogBuilder.create().show();
                 break;
+
+            case R.id.back:
+                Intent goHome = new Intent(this, DeezerSongSearchMain.class);
+                startActivity(goHome);
         }
+
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         DrawerLayout drawerLayout = findViewById(R.id.drawer);
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -259,6 +263,10 @@ public class DeezerSongSearchMain extends AppCompatActivity implements Navigatio
                 e.printStackTrace();
             }
             return "";
+        }
+
+        protected void onProgressUpdate(Integer... value) {
+            progressBar.setProgress(value[0]);
         }
 
 

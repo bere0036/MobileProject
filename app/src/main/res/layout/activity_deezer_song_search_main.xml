@@ -10,7 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Deezer Song Search API" />
+        app:title="Deezer Song"
+        android:background="@color/colorPrimary"/>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer"
