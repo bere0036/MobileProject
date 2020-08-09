@@ -80,18 +80,11 @@
                 android:text="@string/lyricsSavedFavourites"
                 android:layout_below="@+id/searchButton" />
 
-            <TextView
-                android:id="@+id/lyricsNotFound"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_below="@+id/savedFavouritesButton"/>
-
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lyricsTextView"/>
+                android:layout_below="@+id/savedFavouritesButton"/>
 
 
         </RelativeLayout>

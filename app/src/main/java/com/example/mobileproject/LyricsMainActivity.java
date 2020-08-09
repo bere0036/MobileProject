@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -209,11 +211,22 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 
 
     private class SongQuery extends AsyncTask<String, Integer, String> {
-        TextView lyricsNotFound = findViewById(R.id.lyricsNotFound);
+
+        boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
         @Override
         protected String doInBackground(String... args) {
             try {
+                //If is tablet and if lyrics from previous search are displayed in fragment
+                if (isTablet) {
+                    if(lyrics != null) {
+                        lyrics = null;
+                        getSupportFragmentManager()
+                                .beginTransaction().
+                                remove(getSupportFragmentManager().findFragmentByTag("LyricsDetailsFragment")).commit();
+                    }
+                }
+
                 //create a URL object of what server to contact:
                 URL url = new URL(args[0]);
 
@@ -281,12 +294,13 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
                 dataToPass.putString("LYRICS", lyrics);
                 boolean isTablet = findViewById(R.id.fragmentLocation) != null; //check if the FrameLayout is loaded
 
-                if(isTablet) {
+                if( isTablet) {
                     LyricsDetailsFragment dFragment = new LyricsDetailsFragment(); //add a DetailFragment
-                    dFragment.setArguments( dataToPass );
+
+                    dFragment.setArguments(dataToPass);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragmentLocation, dFragment) //Add the fragment in FrameLayout
+                            .replace(R.id.fragmentLocation, dFragment, "LyricsDetailsFragment") //Add the fragment in FrameLayout
                             .commit(); //actually load the fragment. Calls onCreate() in DetailFragment
                 } else {
                     //isPhone
@@ -295,7 +309,10 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
                     startActivity(nextActivity); //make the transition
                 }
 
-            } else lyricsNotFound.setText(getResources().getString(R.string.lyricsNotFound));
+            } else {
+                String message = getResources().getString(R.string.lyricsNotFound);
+                Toast.makeText(LyricsMainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
 
             progressBar.setVisibility(View.INVISIBLE);
         }
