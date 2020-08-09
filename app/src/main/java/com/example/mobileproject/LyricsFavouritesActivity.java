@@ -76,6 +76,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         favouritesSearchInput = findViewById(R.id.favouritesSearch);
         favouritesSearchInput.setHint(savedString);
 
+        //so the keyboard doesn't show up when first opening activity
         imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(favouritesSearchInput.getWindowToken(), 0);
 
@@ -139,7 +140,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
             }
         });
 
-
+        //Listener for deleting items in list
         myList.setOnItemLongClickListener( (parent, view, position, id) -> {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesDeleteQuestion))
@@ -157,21 +158,22 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         });
     }
 
+    //Saving last search in favourites db
     private void saveSharedPrefs(String stringToSave) {
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("Last Lookup", stringToSave);
         edit.commit();
     }
 
-
+    // Inflate the menu items for use in the action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.lyrics_menu, menu);
         return true;
     }
 
+    //load toolbar
     public void loadToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -186,10 +188,11 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    //Listener for toolbar - switching to other activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String message;
-        //Look at your menu XML file. Put a case for every id in that file:
+
         switch(item.getItemId())
         {
             //what to do when the menu item is selected:
@@ -205,6 +208,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 //                startActivity(goToSoccer); //make the transition
 //                break;
 //
+
             case R.id.toDeezerIcon:
                 Intent nextActivity = new Intent(this, DeezerSongSearchMain.class);
                 startActivity(nextActivity); //make the transition
@@ -218,10 +222,9 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         return true;
     }
 
+    //Listener for navigation bar item clicks
     @Override
     public boolean onNavigationItemSelected( MenuItem item) {
-        String message = null;
-
         switch(item.getItemId())
         {
             case R.id.donateItem:
@@ -244,7 +247,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         return false;
     }
 
-
+    //Dialog to display when help button is clicked
     public void helpDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesInstructionsTitle))
@@ -252,11 +255,11 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
                 .setPositiveButton("OK", (click, arg) -> {}).create().show();
     }
 
-
+    //Dialog to display when donate button is clicked
     public void donateDialog() {
         EditText alertDialogEditText = new EditText(this);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsDonateTitle))
+        alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesDonateTitle))
                 .setMessage(getResources().getString(R.string.lyricsDonateBody))
                 .setView(alertDialogEditText)
                 .setPositiveButton(getResources().getString(R.string.lyricsThankYou), (click, arg) -> {})
@@ -273,6 +276,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
         Cursor results;
 
+        // Search for string in both artist and title of database items
         if (searchTerm!=null) {
             searchTerm = "%" + searchTerm + "%";
             elements.clear();
@@ -289,7 +293,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         int lyricsColIndex = results.getColumnIndex(LyricsMyOpener.COL_LYRICS);
         int idColIndex = results.getColumnIndex(LyricsMyOpener.COL_ID);
 
-
+        //Adds all items in database to list
         while (results.moveToNext()) {
             String artist = results.getString(artistColIndex);
             String title = results.getString(titleColIndex);
