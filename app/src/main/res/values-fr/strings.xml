@@ -52,4 +52,28 @@
     <string name="lyricsDonateButton">Donner</string>
     <string name="lyricsFavouritesDonateTitle">S\'il-vous-plaît, $oyez généreux.</string>
     <string name="lyricsNotFound">Je n\'ai pas trouvé les paroles pour cette chanson.</string>
+
+    <string name="toCitiesActivity">To Cities Activity</string>
+    <string name="app_name">Geo Data Source</string>
+    <string name="citiesAuthor">Author: Sepideh Shahroudi</string>
+    <string name="Author">Author: Sepideh Shahroudi</string>
+    <string name="citiesFavouritesVersion">Version 1.0</string>
+    <string name="latitudenumber">latitude</string>
+    <string name="latitude">Enter latitude</string>
+    <string name="longitudenumber">longitude</string>
+    <string name="longitude">Enter longitude </string>
+
+    <string name="countryname">country</string>
+    <string name="Regionname">Region</string>
+    <string name="cityname">city</string>
+    <string name="currency">currency</string>
+    <string name="searchbutton">Google map</string>
+    <string name="favourite">Favourite Cities</string>
+    <string name="type_here">Latitude and Longitude</string>
+    <string name="favouritesDeleteLatitude">"Latitude: "</string>
+    <string name="favouritesDeleteLongitude">"Longitude: "</string>
+    <string name="citiesinformation">Information </string>
+    <string name="citiesFragmentButton">HIDE</string>
+    <string name="citiesFavouritesSearch">"Search: "</string>
+    <string name="citiesSavedFavourites">Save Favourites</string>
 </resources>

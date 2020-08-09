@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/appName" />
+
+    <Button
+        android:id="@+id/toLyricsMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toLyricsActivity"/>
+
+    <Button
+        android:id="@+id/toSongAPI"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toDeezerActivity"/>
+
+    <Button
+        android:id="@+id/toSoccer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toSoccerActivity"/>
+
+    <Button
+        android:id="@+id/toCityFinder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/toCityFinderActivity"/>
+
+</LinearLayout>
+

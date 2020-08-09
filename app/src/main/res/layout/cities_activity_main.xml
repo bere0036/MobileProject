@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        tools:openDrawer="start">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/artistName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lyricsArtistNamePrompt"
+                android:focusable="false" />
+
+            <EditText
+                android:id="@+id/enterArtistName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/lyricsArtistNameHint"
+                android:layout_below="@+id/artistName" />
+
+            <TextView
+                android:id="@+id/songTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="@string/lyricsSongTitlePrompt"
+                android:layout_below="@+id/enterArtistName"
+                android:focusable="false"/>
+
+            <EditText
+                android:id="@+id/enterSongTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/lyricsSongTitleHint"
+                android:layout_below="@+id/songTitle" />
+
+            <Button
+                android:id="@+id/searchAPIButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lyricsSearchButtonAPI"
+                android:layout_below="@+id/enterSongTitle" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lyricsSearchButtonGoogle"
+                android:layout_below="@+id/searchAPIButton" />
+
+            <Button
+                android:id="@+id/savedFavouritesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lyricsSavedFavourites"
+                android:layout_below="@+id/searchButton" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/savedFavouritesButton"/>
+
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/cities_favourites_header_layout"
+            app:menu="@menu/lyrics_navigation_drawer"
+            android:id="@+id/nav_view"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+</RelativeLayout>
+
