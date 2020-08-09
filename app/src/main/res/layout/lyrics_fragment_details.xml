@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/songLyrics"
-            android:text="SAVE TO FAVOURITES"/>
+            android:text="@string/lyricsSaveToFavourites"/>
 
         <Button
             android:id="@+id/fragmentButton"

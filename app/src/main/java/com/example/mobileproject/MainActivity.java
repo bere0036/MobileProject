@@ -20,5 +20,27 @@ public class MainActivity extends AppCompatActivity {
             startActivity(nextActivity); //make the transition
         });
 
+//        Button toCityActivity = findViewById(R.id.toCityFinder);
+//
+//        toCityActivity.setOnClickListener( click -> {
+//            Intent nextActivity = new Intent(this, CityMainActivity.class);
+//            startActivity(nextActivity); //make the transition
+//        });
+//
+//        Button toDeezerActivity = findViewById(R.id.toSongAPI);
+//
+//        toCityActivity.setOnClickListener( click -> {
+//            Intent nextActivity = new Intent(this, DeezerMainActivity.class);
+//            startActivity(nextActivity); //make the transition
+//        });
+//
+//        Button toSoccerActivity = findViewById(R.id.toSoccer);
+//
+//        toCityActivity.setOnClickListener( click -> {
+//            Intent nextActivity = new Intent(this, SoccerMainActivity.class);
+//            startActivity(nextActivity); //make the transition
+//        });
+
+
     }
 }

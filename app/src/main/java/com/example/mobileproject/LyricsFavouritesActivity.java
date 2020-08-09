@@ -68,13 +68,16 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lyrics_activity_favourites);
 
-        setTitle(getResources().getString(R.string.lyricsActivityName));
+                setTitle(getResources().getString(R.string.lyricsActivityName));
 
         //Getting the last performed search back as a hint
         prefs = getSharedPreferences("Last Lookup", Context.MODE_PRIVATE);
         savedString = prefs.getString("Last Lookup", "");
         favouritesSearchInput = findViewById(R.id.favouritesSearch);
         favouritesSearchInput.setHint(savedString);
+
+        imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(favouritesSearchInput.getWindowToken(), 0);
 
         loadToolbar();
 
@@ -185,7 +188,7 @@ public class LyricsFavouritesActivity extends AppCompatActivity implements Navig
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String message = null;
+        String message;
         //Look at your menu XML file. Put a case for every id in that file:
         switch(item.getItemId())
         {
