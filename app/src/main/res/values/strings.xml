@@ -61,7 +61,7 @@
     <string name="longitudenumber">longitude</string>
     <string name="longitude">Enter longitude </string>
     <string name="citiesinformation">Information </string>
-    <string name="toCitiesActivity">To Cities Activity</string>
+
     <string name="countryname">country</string>
     <string name="Regionname">Region</string>
     <string name="cityname">city</string>
@@ -74,4 +74,32 @@
     <string name="citiesFragmentButton">HIDE</string>
     <string name="citiesFavouritesSearch">"Search: "</string>
     <string name="citiesSavedFavourites">Save Favourites</string>
+    <string name="citiesSearchHint">Type here...</string>
+    <string name="citiesFavouritesSearchButton">GO</string>
+    <string name="citiesFavouritesSnackbarString">No search term entered. Showing whole list.</string>
+    <string name="citiesFavouritesDeleteQuestion">Do you want to delete this?</string>
+    <string name="citiesFavouritesDeleteYes">Yes</string>
+    <string name="citiesFavouritesDeleteNo">No</string>
+    <string name="citiesFavouritesHelpButton">Help</string>
+    <string name="citiesFavouritesInstructionsTitle">Instructions for this page:</string>
+    <string name="citiesFavouritesFoundOneItem">Found one Item.</string>
+    <string name="citiesFavouritesFoundManyItems1">"Found "</string>
+    <string name="citiesFavouritesFoundManyItems2">" Items."</string>
+    <string name="citiesOpen">Open</string>
+    <string name="citiesClose">Close</string>
+    <string name="citiesAboutProject">This is the Geo Data Source activity, written by Sepideh Shahroudi</string>
+    <string name="citiesThankYou">Thank You</string>
+    <string name="citiesCancel">Cancel</string>
+    <string name="citiesFavouritesDonateTitle">Please give generou$ly</string>
+    <string name="citiesSaveToFavourites">Save to Favourites</string>
+    <string name="citiesOK">OK</string>
+    <string name="citiesActivityName">Geo Data Search</string>
+    <string name="citiesSearchButtonAPI">Search API</string>
+    <string name="citiesFavouritesSearchHint">Type here...</string>
+    <string name="citiesAboutProjectTitle">About Project</string>
+    <string name="citiesAboutAPI">About API</string>
+    <string name="citiesDonateTitle">Donate</string>
+    <string name="citiesDonateBody">How much would you like to donate?</string>
+    <string name="citiesDonateButton">Donate</string>
+    <string name="citiesNotFound">City not found.</string>
 </resources>

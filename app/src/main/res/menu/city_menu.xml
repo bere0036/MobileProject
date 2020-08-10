@@ -21,7 +21,7 @@
         android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
 
 
-    <item android:id="@+id/aboutProject"
+    <item android:id="@+id/citiesaboutProject"
         android:title="@string/lyricsAboutProjectTitle"
         app:showAsAction="never"
         android:orderInCategory="400"/> <!-- This uses showAsAction=never, so look at title= parameter -->
