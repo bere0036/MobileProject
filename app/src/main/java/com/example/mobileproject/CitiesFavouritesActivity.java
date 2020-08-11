@@ -41,13 +41,22 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
     public static final String ITEM_SELECTED = "ITEM";
     public static final String ITEM_POSITION = "POSITION";
     public static final String ITEM_ID = "ID";
-    public static final String ARTIST = "ARTIST";
-    public static final String TITLE = "TITLE";
-    public static final String LYRICS = "LYRICS";
+//    public static final String ARTIST = "ARTIST";
+//    public static final String TITLE = "TITLE";
+//    public static final String LYRICS = "LYRICS";
+
+
+    public static final String LATITUDE = "LATITUDE";
+    public static final String LONGITUDE= "LONGITUDE";
+
+    public static final String COUNTRY= "COUNTRY";
+    public static final String REGION= "REGION";
+    public static final String CITY= "CITY";
+    public static final String CURRENCY= "CURRENCY";
 
     SharedPreferences prefs = null;
-    protected ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
-    private LyricsFavouritesActivity.MyListAdapter myAdapter;
+    protected ArrayList<CitiesFavouritesActivity> elements = new ArrayList<>();
+    private CitiesFavouritesActivity.MyListAdapter myAdapter;
     SQLiteDatabase db;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
@@ -64,9 +73,9 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lyrics_activity_favourites);
+        setContentView(R.layout.cities_activity_favourites);
 
-        setTitle(getResources().getString(R.string.lyricsActivityName));
+        setTitle(getResources().getString(R.string.citiesActivityName));
 
         //Getting the last performed search back as a hint
         prefs = getSharedPreferences("Last Lookup", Context.MODE_PRIVATE);
@@ -83,7 +92,7 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
 
         loadDataFromDatabase(false, null);
 
-        myAdapter = new LyricsFavouritesActivity.MyListAdapter();
+        myAdapter = new FavouritesActivity.MyListAdapter();
         myList.setAdapter( myAdapter);
 
         favouritesSearchButton = findViewById(R.id.favouritesSearchButton);
@@ -115,12 +124,17 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
             //Creating and passing a bundle with that item's info
             Bundle dataToPass = new Bundle();
             dataToPass.putLong(ITEM_ID, id);
-            dataToPass.putString(ARTIST, elements.get(position).getArtist());
-            dataToPass.putString(TITLE, elements.get(position).getTitle());
-            dataToPass.putString(LYRICS, elements.get(position).getLyrics());
+
+            dataToPass.putString(LATITUDE, elements.get(position).getLatitude());
+            dataToPass.putString(LONGITUDE, elements.get(position).getLongitude());
+            dataToPass.putString(CITY, elements.get(position).getCity());
+            dataToPass.putString(COUNTRY, elements.get(position).getCountry());
+            dataToPass.putString(REGION, elements.get(position).getRegion());
+            dataToPass.putString(CURRENCY, elements.get(position).getCurrency());
+
 
             if(isTablet) {
-                LyricsDetailsFragment dFragment = new LyricsDetailsFragment(); //add a DetailFragment
+                CitiesDetailsFragment dFragment = new CitiesDetailsFragment(); //add a DetailFragment
                 dFragment.setArguments( dataToPass );
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -128,7 +142,7 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
                         .commit(); //actually load the fragment. Calls onCreate() in DetailFragment
             } else {
                 //isPhone
-                Intent nextActivity = new Intent(this, LyricsEmptyActivity.class);
+                Intent nextActivity = new Intent(this, CitiesEmptyActivity.class);
                 nextActivity.putExtras(dataToPass); //send data to next activity
                 startActivity(nextActivity); //make the transition
             }
@@ -138,10 +152,10 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
         myList.setOnItemLongClickListener( (parent, view, position, id) -> {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesDeleteQuestion))
-                    .setMessage(getResources().getString(R.string.lyricsFavouritesDeleteArtist) + elements.get(position).getArtist()
-                            + "\n" + getResources().getString(R.string.lyricsFavouritesDeleteSong) + elements.get(position).getTitle())
+                    .setMessage(getResources().getString(R.string.favouritesDeleteLatitude) + elements.get(position).getLatitude()
+                            + "\n" + getResources().getString(R.string.favouritesDeleteLongitude) + elements.get(position).getTitle())
                     .setPositiveButton(getResources().getString(R.string.lyricsFavouritesDeleteYes), (click, arg) -> {
-                        db.delete(LyricsMyOpener.TABLE_NAME, LyricsMyOpener.COL_ID + "= ?", new String[] {Long.toString(elements.get(position).getId())});
+                        db.delete(CitiesMyOpener.TABLE_NAME, CitiesMyOpener.COL_ID + "= ?", new String[] {Long.toString(elements.get(position).getId())});
                         elements.remove(position);
                         myAdapter.notifyDataSetChanged();
                     })
@@ -163,7 +177,7 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.lyrics_menu, menu);
+        inflater.inflate(R.menu.city_menu, menu);
         return true;
     }
 
@@ -206,7 +220,7 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
 //                break;
 
             case R.id.aboutProject:
-                message = getResources().getString(R.string.lyricsAboutProject);
+                message = getResources().getString(R.string.citiesAboutProject);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
         }
@@ -243,7 +257,7 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
     public void helpDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(getResources().getString(R.string.lyricsFavouritesInstructionsTitle))
-                .setMessage(getResources().getString(R.string.lyricsFavouritesInstructionsBody))
+                .setMessage(getResources().getString(R.string.citiesFavouritesInstructionsTitle))
                 .setPositiveButton("OK", (click, arg) -> {}).create().show();
     }
 
@@ -261,10 +275,10 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
 
     private void loadDataFromDatabase(boolean searching, String searchTerm) {
         //get a database connection"
-        LyricsMyOpener dbOpener = new LyricsMyOpener(this);
+        CitiesMyOpener dbOpener = new CitiesMyOpener(this);
         db = dbOpener.getWritableDatabase(); // Calls onCreate() if you've never built the table before, onUpgrade if the version here is newer
 
-        String[] columns = {LyricsMyOpener.COL_ID, LyricsMyOpener.COL_ARTIST, LyricsMyOpener.COL_TITLE, LyricsMyOpener.COL_LYRICS};
+        String[] columns = {CitiesMyOpener.COL_ID, CitiesMyOpener.COL_LATITUDE, CitiesMyOpener.COL_LONGITUDE, CitiesMyOpener.COL_CITY , CitiesMyOpener.COL_COUNTRY, CitiesMyOpener.COL_CURRENCY};
 
         Cursor results;
 
@@ -272,30 +286,35 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
             searchTerm = "%" + searchTerm + "%";
             elements.clear();
             String[] args = {searchTerm, searchTerm};
-            results = db.query(false, LyricsMyOpener.TABLE_NAME, columns,
-                    LyricsMyOpener.COL_ARTIST + " LIKE ? OR " + LyricsMyOpener.COL_TITLE + " LIKE ?" , args, null, null, null, null);
+            results = db.query(false, CitiesMyOpener.TABLE_NAME, columns,
+                    CitiesMyOpener.COL_LATITUDE + " LIKE ? OR " + CitiesMyOpener.COL_LONGITUDE + " LIKE ?" , args, null, null, null, null);
         } else {
             elements.clear();
-            results = db.query(false, LyricsMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
+            results = db.query(false, CitiesMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
         }
 
-        int artistColIndex = results.getColumnIndex(LyricsMyOpener.COL_ARTIST);
-        int titleColIndex = results.getColumnIndex(LyricsMyOpener.COL_TITLE);
-        int lyricsColIndex = results.getColumnIndex(LyricsMyOpener.COL_LYRICS);
-        int idColIndex = results.getColumnIndex(LyricsMyOpener.COL_ID);
-
+        int latitudeColIndex = results.getColumnIndex(CitiesMyOpener.COL_LATITUDE);
+        int longitudeColIndex = results.getColumnIndex(CitiesMyOpener.COL_LONGITUDE);
+        int cityColIndex = results.getColumnIndex(CitiesMyOpener.COL_CITY);
+        int regionColIndex = results.getColumnIndex(CitiesMyOpener.COL_REGION);
+        int countryColIndex = results.getColumnIndex(CitiesMyOpener.COL_COUNTRY);
+        int currencyColIndex = results.getColumnIndex(CitiesMyOpener.COL_CURRENCY);
+        int idColIndex = results.getColumnIndex(CitiesMyOpener.COL_ID);
 
         while (results.moveToNext()) {
-            String artist = results.getString(artistColIndex);
-            String title = results.getString(titleColIndex);
-            String lyrics = results.getString(lyricsColIndex);
+            String latitude = results.getString(latitudeColIndex);
+            String longitude = results.getString(longitudeColIndex);
+            String city = results.getString(cityColIndex);
+            String region = results.getString(regionColIndex);
+            String country = results.getString(countryColIndex);
+            String currency = results.getString(currencyColIndex);
             int id = results.getInt( idColIndex);
 
-            elements.add(new LyricsSavedFavourite(artist, title, lyrics, id));
+            elements.add(new LyricsSavedFavourite(latitude, longitude, city, region, country, currency, id));
         }
 
         if (elements.size() == 1)
-            Toast.makeText(this, getResources().getString(R.string.lyricsFavouritesFoundOneSong), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.citiesFavouritesFoundOneItem), Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, getResources().getString(R.string.lyricsFavouritesFoundManySongs1) + elements.size() +
                     getResources().getString(R.string.lyricsFavouritesFoundManySongs2), Toast.LENGTH_SHORT).show();
@@ -313,13 +332,13 @@ public class CitiesFavouritesActivity extends AppCompatActivity implements Navig
             LayoutInflater inflater = getLayoutInflater();
 
             //make a new row:
-            View newView = inflater.inflate(R.layout.lyrics_favourite_individual, parent, false);
+            View newView = inflater.inflate(R.layout.citis_favourite_individual, parent, false);
             //set what the text should be for this row:
-            TextView artistTextView = newView.findViewById(R.id.artistName);
-            TextView titleTextView = newView.findViewById(R.id.songTitle);
+            TextView latitudeTextView = newView.findViewById(R.id.latitude);
+            TextView longitudeTextView = newView.findViewById(R.id.longitudenumber);
 
-            artistTextView.setText(elements.get(position).getArtist());
-            titleTextView.setText(elements.get(position).getTitle());
+            latitudeTextView.setText(elements.get(position).getLatitude());
+            longitudeTextView.setText(elements.get(position).getLongitude());
 
             //return it to be put in the table
             return newView;

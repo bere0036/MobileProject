@@ -31,12 +31,15 @@ public class CitiesDetailsFragment extends Fragment {
     private String city;
     private String currency;
     private AppCompatActivity parentActivity;
-    private ArrayList<LyricsSavedFavourite> elements = new ArrayList<>();
+    private ArrayList<CitiesSavedFavourite> elements = new ArrayList<>();
     Button saveToFavourites;
     Button hideButton;
-    TextView artistTextView;
-    TextView titleTextView;
-    TextView lyricsTextView;
+    TextView latitudeTextView;
+    TextView longitudeTextView;
+    TextView cityTextView;
+    TextView countryTextView;
+    TextView regionTextView;
+    TextView currencyTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,28 +47,28 @@ public class CitiesDetailsFragment extends Fragment {
 
 
         dataFromActivity = getArguments();
-        latitude = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.LATITUDE));
-        longitude = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.LONGITUDE));
-        country = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.COUNTRY));
-        region = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.REGION));
-        city = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.CITY));
-        currency = toTitleCase(dataFromActivity.getString( LyricsFavouritesActivity.CURRENCY));
-      //  lyrics = spacingFixer(dataFromActivity.getString( LyricsFavouritesActivity.COUNTRY));
+        latitude = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.LATITUDE));
+        longitude = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.LONGITUDE));
+        country = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.COUNTRY));
+        region = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.REGION));
+        city = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.CITY));
+        currency = toTitleCase(dataFromActivity.getString( CitiesFavouritesActivity.CURRENCY));
+      //  lyrics = spacingFixer(dataFromActivity.getString( CitiesFavouritesActivity.COUNTRY));
 
         // Inflate the layout for this fragment
         View result =  inflater.inflate(R.layout.cities_fragment_details, container, false);
 
         //show the artist
-        artistTextView = result.findViewById(R.id.artistName);
-        artistTextView.setText(artist);
+        latitudeTextView = result.findViewById(R.id.latitude);
+        latitudeTextView.setText(latitude);
 
         //show the title
-        titleTextView = result.findViewById(R.id.songTitle);
-        titleTextView.setText(title);
+        longitudeTextView = result.findViewById(R.id.longitudenumber);
+        longitudeTextView.setText(longitude);
 
         //show the lyrics
-        lyricsTextView = result.findViewById(R.id.songLyrics);
-        lyricsTextView.setText(lyrics);
+       // lyricsTextView = result.findViewById(R.id.songLyrics);
+       // lyricsTextView.setText(lyrics);
 
 
         // get the delete button, and add a click listener:
@@ -83,7 +86,7 @@ public class CitiesDetailsFragment extends Fragment {
         loadDataFromDatabase();
 
         for (int i=0; i<elements.size(); i++) {
-            if (elements.get(i).getArtist().equals(artist) && elements.get(i).getTitle().equals(title)) {
+            if (elements.get(i).getLatitude().equals(latitude) && elements.get(i).getLongitude().equals(longitude)) {
                 saveToFavourites.setVisibility(View.INVISIBLE);
                 break;
             }
@@ -92,14 +95,18 @@ public class CitiesDetailsFragment extends Fragment {
         saveToFavourites.setOnClickListener(click -> {
             ContentValues newRowValues = new ContentValues();
 
-            newRowValues.put(LyricsMyOpener.COL_ARTIST, artist);
-            newRowValues.put(LyricsMyOpener.COL_TITLE, title);
-            newRowValues.put(LyricsMyOpener.COL_LYRICS, lyricsTextView.getText().toString());
+            newRowValues.put(CitiesMyOpener.COL_LATITUDE, latitude);
+            newRowValues.put(CitiesMyOpener.COL_LONGITUDE, longitude);
+            newRowValues.put(CitiesMyOpener.COL_CITY, city);
+            newRowValues.put(CitiesMyOpener.COL_COUNTRY, country);
+            newRowValues.put(CitiesMyOpener.COL_REGION, region);
+            newRowValues.put(CitiesMyOpener.COL_CURRENCY, currency);
+            //newRowValues.put(LyricsMyOpener.COL_LYRICS, lyricsTextView.getText().toString());
 
 
             long newId = db.insert(LyricsMyOpener.TABLE_NAME, null, newRowValues);
 
-            LyricsSavedFavourite favourite = new LyricsSavedFavourite(artist, title, lyrics, newId);
+            CitiesSavedFavourite favourite = new CitiesSavedFavourite(latitude, longitude, city, country, region, currency, newId);
             elements.add(favourite);
 
             Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
@@ -118,26 +125,32 @@ public class CitiesDetailsFragment extends Fragment {
     }
 
     private void loadDataFromDatabase() {
-        LyricsMyOpener dbOpener = new LyricsMyOpener(getActivity());
+        CitiesMyOpener dbOpener = new CitiesMyOpener(getActivity());
         db = dbOpener.getWritableDatabase(); // Calls onCreate() if you've never built the table before, onUpgrade if the version here is newer
 
-        String[] columns = {LyricsMyOpener.COL_ID, LyricsMyOpener.COL_ARTIST, LyricsMyOpener.COL_TITLE, LyricsMyOpener.COL_LYRICS};
+        String[] columns = {CitiesMyOpener.COL_ID, CitiesMyOpener.COL_LATITUDE, CitiesMyOpener.COL_LONGITUDE, CitiesMyOpener.COL_COUNTRY, CitiesMyOpener.COL_REGION, CitiesMyOpener.COL_CITY, CitiesMyOpener.COL_REGION };
 
-        Cursor results = db.query(false, LyricsMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
+        Cursor results = db.query(false, CitiesMyOpener.TABLE_NAME, columns, null, null, null, null, null, null);
 
-        int idColIndex = results.getColumnIndex(LyricsMyOpener.COL_ID);
-        int artistColIndex = results.getColumnIndex(LyricsMyOpener.COL_ARTIST);
-        int titleColIndex = results.getColumnIndex(LyricsMyOpener.COL_TITLE);
-        int lyricsColIndex = results.getColumnIndex(LyricsMyOpener.COL_LYRICS);
+        int idColIndex = results.getColumnIndex(CitiesMyOpener.COL_ID);
+        int latitudeColIndex = results.getColumnIndex(CitiesMyOpener.COL_LATITUDE);
+        int longitudeColIndex = results.getColumnIndex(CitiesMyOpener.COL_LONGITUDE);
+        int cityColIndex = results.getColumnIndex(CitiesMyOpener.COL_CITY);
+        int countryColIndex = results.getColumnIndex(CitiesMyOpener.COL_COUNTRY);
+        int regionColIndex = results.getColumnIndex(CitiesMyOpener.COL_REGION);
+        int currencyColIndex = results.getColumnIndex(CitiesMyOpener.COL_CURRENCY);
 
         while (results.moveToNext()) {
             long id = results.getLong(idColIndex);
-            String artist = results.getString(artistColIndex);
-            String title = results.getString(titleColIndex);
-            String lyrics = results.getString(lyricsColIndex);
+            String latitude = results.getString(latitudeColIndex);
+            String longitude = results.getString(longitudeColIndex);
+            String city = results.getString(cityColIndex);
+            String country = results.getString(countryColIndex);
+            String region = results.getString(regionColIndex);
+            String currency = results.getString(currencyColIndex);
 
             //add the new Song to the array list:
-            elements.add(new LyricsSavedFavourite(artist, title, lyrics, id));
+            elements.add(new CitiesSavedFavourite(latitude, longitude, city, country, region, currency, id));
         }
     }
 

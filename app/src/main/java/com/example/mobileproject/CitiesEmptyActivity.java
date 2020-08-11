@@ -14,7 +14,7 @@ public class CitiesEmptyActivity extends AppCompatActivity {
 
         Bundle dataToPass = getIntent().getExtras(); //get the data that was passed from FragmentExample
 
-        LyricsDetailsFragment dFragment = new LyricsDetailsFragment();
+        CitiesDetailsFragment dFragment = new CitiesDetailsFragment();
         dFragment.setArguments( dataToPass ); //pass data to the the fragment
         getSupportFragmentManager()
                 .beginTransaction()
