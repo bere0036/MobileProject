@@ -52,4 +52,26 @@
     <string name="lyricsDonateButton">Donner</string>
     <string name="lyricsFavouritesDonateTitle">S\'il-vous-plaît, $oyez généreux.</string>
     <string name="lyricsNotFound">Je n\'ai pas trouvé les paroles pour cette chanson.</string>
+
+
+
+
+    <string name="soccer_app_title"> scorebat football faits saillants </string>
+    <string name="Soccer_author"> Auteur: Robert Nix </string>
+    <string name="Soccer_version"> Version 1.0 </string>
+    <string name="Soccer_Button_search"> chercher Scorebat </string>
+    <string name="Soccer_looking_for">" titre du match de football"</string>
+    <string name="Soccer_enter_info_here"> entrez le titre ici </string>
+    <string name="toSongSearch"> to song search activity </string>
+    <string name="deezer_songSearch">Song Search</string>
+    <string name="deezer_enterNameText">Enter Artist\'s Name:</string>
+    <string name="deezer_nameEditText">Name</string>
+    <string name="deezer_searchButton">SEARCH</string>
+    <string name="deezer_favButton">FAVOURITES</string>
+    <string name="deezer_listView_artistName">Artists Name</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name= "item1"></string>
+
+
 </resources>

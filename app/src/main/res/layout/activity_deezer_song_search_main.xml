@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DeezerSongSearchMain">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Deezer Song"
+        android:background="@color/colorPrimary"/>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        tools:openDrawer="start" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/deezerSearchText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deezer_enterNameText"
+        android:layout_marginLeft="10dp" />
+
+    <EditText
+        android:id="@+id/deezerSearchEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/deezerSearchText"
+        android:hint="@string/deezer_nameEditText"
+        android:layout_margin="5dp"
+        />
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deezer_searchButton"
+        android:layout_below="@id/deezerSearchEditText"
+        android:layout_toLeftOf="@id/centerView"
+        android:layout_margin="5dp"
+        />
+
+    <View
+        android:id="@+id/centerView"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/deezerSearchEditText"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:id="@+id/deezerFavouritesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/deezer_favButton"
+        android:layout_toRightOf="@+id/centerView"
+        android:layout_below="@id/deezerSearchEditText"
+        android:layout_margin="5dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/deezerProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchButton"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" />
+
+    <ListView
+        android:id="@+id/deezerListView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/deezerProgressBar"
+        />
+
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/deezer_header"
+            app:menu="@menu/deezer_drawer"
+            android:id="@+id/nav_view"/>
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+</RelativeLayout>

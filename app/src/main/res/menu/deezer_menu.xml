@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/item1"
+        android:title="Help"
+        android:icon="@drawable/help"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/item2"
+        android:title="Home"
+        android:icon="@drawable/home"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/item3"
+        android:title="Lyrics Search"
+        android:icon="@drawable/music"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/item4"
+        android:title="Soccer"
+        android:icon="@drawable/soccer"
+        android:orderInCategory="400"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/item5"
+        android:title="GEO"
+        android:icon="@drawable/globe"
+        android:orderInCategory="500"
+        app:showAsAction="ifRoom"/>
+
+
+</menu>

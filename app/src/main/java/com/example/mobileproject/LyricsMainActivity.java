@@ -76,6 +76,7 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 
         loadToolbar();
 
+        //Google search using artist and title edittexts for search terms
         searchGoogleButton.setOnClickListener(click -> {
             artist = artistNameEditText.getText().toString();
             title = songTitleEditText.getText().toString();
@@ -86,6 +87,7 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
             startActivity(searchGoogle);
         });
 
+        //search API
         searchAPIButton.setOnClickListener(click -> {
             InputMethodManager imm = (InputMethodManager)getSystemService(this.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(songTitleEditText.getWindowToken(), 0);
@@ -95,12 +97,14 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
             title = songTitleEditText.getText().toString();
 
             SongQuery req = new SongQuery();
+            //replacing spaces " " with "%20" for the search
             String url = "https://api.lyrics.ovh/v1/" +
                     artist.replace(" ", "%20") + "/" +
                     title.replace(" ", "%20");
             req.execute(url);
         });
 
+        //go to saved favourites
         toSavedFavouritesButton.setOnClickListener(click -> {
             nextPage = new Intent(this, LyricsFavouritesActivity.class);
             startActivity(nextPage);
@@ -116,6 +120,7 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
     }
 
     public void loadToolbar() {
+        // load toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -131,8 +136,9 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String message = null;
-        //Look at your menu XML file. Put a case for every id in that file:
+        //cases for switching to other activities
+        String message;
+
         switch(item.getItemId())
         {
             //what to do when the menu item is selected:
@@ -148,23 +154,22 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 //                startActivity(goToSoccer); //make the transition
 //                break;
 //
-//            case R.id.toDeezerButton:
-//                Intent goToDeezer = new Intent(this, DeezerMainActivity.class);
-//                startActivity(goToDeezer); //make the transition
-//                break;
+
+            case R.id.toDeezerIcon:
+                Intent nextActivity = new Intent(this, DeezerSongSearchMain.class);
+                startActivity(nextActivity); //make the transition
+                break;
 
             case R.id.aboutProject:
                 message = getResources().getString(R.string.lyricsAboutProject);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 break;
-
         }
         return true;
     }
 
     @Override
     public boolean onNavigationItemSelected( MenuItem item) {
-        String message = null;
 
         switch(item.getItemId())
         {
@@ -217,10 +222,10 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
         @Override
         protected String doInBackground(String... args) {
             try {
-                //If is tablet and if lyrics from previous search are displayed in fragment
-                if (isTablet) {
-                    if(lyrics != null) {
-                        lyrics = null;
+                //lyrics from previous search are displayed in fragment, delete them.
+                if(lyrics != null) {
+                    lyrics = null;
+                    if( isTablet) {
                         getSupportFragmentManager()
                                 .beginTransaction().
                                 remove(getSupportFragmentManager().findFragmentByTag("LyricsDetailsFragment")).commit();
@@ -239,22 +244,6 @@ public class LyricsMainActivity extends AppCompatActivity implements NavigationV
 
                 //wait for data:
                 InputStream response = urlConnection.getInputStream();
-
-                //From part 3: slide 19
-                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                factory.setNamespaceAware(false);
-                XmlPullParser xpp = factory.newPullParser();
-                xpp.setInput(response, "UTF-8");
-
-                //From part 3, slide 20
-                String parameter = null;
-
-                int eventType = xpp.getEventType(); //The parser is currently at START_DOCUMENT
-
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                //wait for data:
-                response = urlConnection.getInputStream();
 
                 publishProgress(50);
 
