@@ -1,10 +1,10 @@
 package com.example.mobileproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,8 +15,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button toLyricsActivity = findViewById(R.id.toLyricsMain);
 
-        toLyricsActivity.setOnClickListener( click -> {
+        toLyricsActivity.setOnClickListener(click -> {
             Intent nextActivity = new Intent(this, LyricsMainActivity.class);
+            startActivity(nextActivity); //make the transition
+        });
+
+        Button toCitiesActivity = findViewById(R.id.toCityFinder);
+
+        toCitiesActivity.setOnClickListener(click -> {
+            Intent nextActivity = new Intent(this, CitiesMainActivity.class);
             startActivity(nextActivity); //make the transition
         });
 

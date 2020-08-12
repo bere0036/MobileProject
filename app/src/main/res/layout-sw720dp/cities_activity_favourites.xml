@@ -9,15 +9,22 @@
         android:id="@+id/toolbar" />
 
     <ListView
-        android:id="@+id/cities_list_view"
         android:layout_below="@id/toolbar"
-        android:layout_width="match_parent"
+        android:id="@+id/cities_list_view"
+        android:layout_width="300dp"
         android:layout_height="match_parent" />
 
     <ProgressBar
         android:id="@+id/city_loading"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_toEndOf="@id/cities_list_view"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -1,106 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.drawerlayout.widget.DrawerLayout android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/mainLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity2">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        tools:openDrawer="start">
-
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar" />
 
-            <TextView
-                android:id="@+id/latitudenumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/latitude"
-                android:focusable="false" />
-
-            <EditText
-                android:id="@+id/enterArtistName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/lyricsArtistNameHint"
-                android:layout_below="@+id/artistName" />
-
-            <TextView
-                android:id="@+id/songTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="@string/lyricsSongTitlePrompt"
-                android:layout_below="@+id/enterArtistName"
-                android:focusable="false"/>
-
-            <EditText
-                android:id="@+id/enterSongTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/lyricsSongTitleHint"
-                android:layout_below="@+id/songTitle" />
-
-            <Button
-                android:id="@+id/searchAPIButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lyricsSearchButtonAPI"
-                android:layout_below="@+id/enterSongTitle" />
-
-            <Button
-                android:id="@+id/searchButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lyricsSearchButtonGoogle"
-                android:layout_below="@+id/searchAPIButton" />
-
-            <Button
-                android:id="@+id/savedFavouritesButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/lyricsSavedFavourites"
-                android:layout_below="@+id/searchButton" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/savedFavouritesButton"/>
-
-
-        </RelativeLayout>
-
-        <com.google.android.material.navigation.NavigationView
+        <Button
+            android:id="@+id/city_search"
+            android:text="@string/city_search_city"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/cities_favourites_header_layout"
-            app:menu="@menu/city_navigation_drawer"
-            android:id="@+id/nav_view"/>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+        <Button
+            android:id="@+id/city_favorite"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/city_search"
+            android:layout_height="wrap_content"
+            android:text="@string/city_list_of_favorite_cities"
+            android:layout_centerInParent="true" />
 
+    </RelativeLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/cities_favourites_header_layout"
+        app:menu="@menu/city_navigation_drawer" />
 
-</RelativeLayout>
-
+</androidx.drawerlayout.widget.DrawerLayout>

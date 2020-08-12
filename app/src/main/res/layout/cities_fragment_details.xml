@@ -1,47 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
 
-    <RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_above="@id/saveToFavourites"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cityname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/citycountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cityname"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/cityregion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/citycountry"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/citycurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cityregion"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/latitudenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/citycurrency"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/longitudenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/latitudenumber"
+                android:textSize="25dp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/removeFromFavourites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragmentLocation">
+        android:layout_above="@id/saveToFavourites"
+        android:text="@string/city_remove_from_favourites" />
 
-        <TextView
-            android:id="@+id/latitudenumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="25dp"/>
+    <Button
+        android:id="@+id/saveToFavourites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragmentButton"
+        android:text="@string/city_save_to_favourites" />
 
-        <TextView
-            android:id="@+id/longitudenumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_below="@+id/latitudenumber"
-            android:textSize="25dp"/>
+    <Button
+        android:id="@+id/fragmentButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/openMaps"
+        android:text="@string/citiesFragmentButton" />
 
-        <TextView
-            android:id="@+id/latitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/longitudenumber" />
+    <Button
+        android:id="@+id/openMaps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/city_open_map_location" />
 
-        <Button
-            android:id="@+id/saveToFavourites"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/latitudenumber"
-            android:text="SAVE TO FAVOURITES"/>
-
-        <Button
-            android:id="@+id/fragmentButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/saveToFavourites"
-            android:text="@string/citiesFragmentButton"/>
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

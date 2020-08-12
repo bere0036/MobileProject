@@ -1,8 +1,7 @@
 package com.example.mobileproject;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,8 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,22 +30,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CitiesFavouritesActivity extends AppCompatActivity {
+public class CitiesActivity extends AppCompatActivity {
 
-    public static final String CURRENCY = "CURRENCY";
-    public static final String CITY = "CITY";
-    public static final String LONGITUDE = "LONGITUDE";
     public static final String ID = "ID";
-    public static final String LATITUDE = "LATITUDE";
+    public static final String CITY = "CITY";
     public static final String COUNTRY = "COUNTRY";
     public static final String REGION = "REGION";
+    public static final String CURRENCY = "CURRENCY";
+    public static final String LATITUDE = "LATITUDE";
+    public static final String LONGITUDE = "LONGITUDE";
 
     private boolean isTablet;
     private List<CitiesSavedFavourite> cList;
     private ProgressBar loading;
     private ListView citiesListView;
-    private CitiesMyOpener cityDatabaseOpener;
     private CityAdapter adapter;
+    private String latitude;
+    private String longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +54,15 @@ public class CitiesFavouritesActivity extends AppCompatActivity {
         setContentView(R.layout.cities_activity_favourites);
 
         cList = new ArrayList<>();
-        cityDatabaseOpener = new CitiesMyOpener(this);
         citiesListView = findViewById(R.id.cities_list_view);
         loading = findViewById(R.id.city_loading);
         loading.setVisibility(View.INVISIBLE);
         adapter = new CityAdapter();
         citiesListView.setAdapter(adapter);
+
+        Bundle data = getIntent().getExtras();
+        latitude = data.getString(LATITUDE);
+        longitude = data.getString(LONGITUDE);
 
         citiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,7 +70,6 @@ public class CitiesFavouritesActivity extends AppCompatActivity {
 
                 Bundle dataToPass = new Bundle();
 
-                dataToPass.putSerializable(ID, cList.get(position).getId());
                 dataToPass.putSerializable(CITY, cList.get(position).getName());
                 dataToPass.putSerializable(COUNTRY, cList.get(position).getCountry());
                 dataToPass.putSerializable(REGION, cList.get(position).getRegion());
@@ -73,13 +81,13 @@ public class CitiesFavouritesActivity extends AppCompatActivity {
                     CitiesDetailsFragment cdf = new CitiesDetailsFragment();
                     cdf.setArguments(dataToPass);
 
-                    CitiesFavouritesActivity.this.getSupportFragmentManager()
+                    CitiesActivity.this.getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragmentContainer, cdf)
                             .commit();
                 } else {
-                    Intent cityEmpty = new Intent(CitiesFavouritesActivity.this, CitiesEmptyActivity.class).putExtras(dataToPass);
-                    CitiesFavouritesActivity.this.startActivity(cityEmpty);
+                    Intent cityEmpty = new Intent(CitiesActivity.this, CitiesEmptyActivity.class).putExtras(dataToPass);
+                    CitiesActivity.this.startActivity(cityEmpty);
                 }
 
             }
@@ -93,55 +101,20 @@ public class CitiesFavouritesActivity extends AppCompatActivity {
             }
         });
 
-        loadCitiesFromDatabase();
-
         isTablet = findViewById(R.id.fragmentContainer) != null;
 
+        new CityQuery().execute();
+
         setSupportActionBar(findViewById(R.id.toolbar));
-        getSupportActionBar().setTitle(R.string.city_fav_cities);
+        getSupportActionBar().setTitle(R.string.city_cities);
     }
 
     private void showCityDetailDialog(int index, long id) {
-        new AlertDialog.Builder(CitiesFavouritesActivity.this)
+        new AlertDialog.Builder(CitiesActivity.this)
                 .setTitle(R.string.city_detail)
                 .setMessage("Index:" + index + "\nName:" + cList.get(index).getName() + "\nDatabase _id:" + id)
                 .setPositiveButton(R.string.city_ok, null)
                 .show();
-    }
-
-    private void loadCitiesFromDatabase() {
-        List<CitiesSavedFavourite> cities = new ArrayList<>();
-        SQLiteDatabase db = cityDatabaseOpener.getReadableDatabase();
-
-        String[] columns = {CitiesMyOpener.COL_ID, CitiesMyOpener.COL_CITY, CitiesMyOpener.COL_COUNTRY, CitiesMyOpener.COL_REGION, CitiesMyOpener.COL_CURRENCY, CitiesMyOpener.COL_LATITUDE, CitiesMyOpener.COL_LONGITUDE};
-        Cursor results = db.query(CitiesMyOpener.TABLE_NAME, columns, null, null, null, null, null);
-
-        int indexId = results.getColumnIndex(CitiesMyOpener.COL_ID);
-        int indexName = results.getColumnIndex(CitiesMyOpener.COL_CITY);
-        int indexCountry = results.getColumnIndex(CitiesMyOpener.COL_COUNTRY);
-        int indexRegion = results.getColumnIndex(CitiesMyOpener.COL_REGION);
-        int indexCurrency = results.getColumnIndex(CitiesMyOpener.COL_CURRENCY);
-        int indexLatitude = results.getColumnIndex(CitiesMyOpener.COL_LATITUDE);
-        int indexLongitude = results.getColumnIndex(CitiesMyOpener.COL_LONGITUDE);
-
-        while (results.moveToNext()) {
-            cities.add(new CitiesSavedFavourite(results.getLong(indexId), results.getString(indexName), results.getString(indexCountry), results.getString(indexRegion), results.getString(indexCurrency), results.getString(indexLatitude), results.getString(indexLongitude)));
-        }
-        results.close();
-
-        cList.clear();
-        cList.addAll(cities);
-        adapter.notifyDataSetChanged();
-
-        if (cList.isEmpty()) {
-            Snackbar.make(citiesListView, R.string.city_no_city_available, Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadCitiesFromDatabase();
     }
 
     private class CityAdapter extends BaseAdapter {
@@ -165,14 +138,57 @@ public class CitiesFavouritesActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             LayoutInflater inflater = getLayoutInflater();
-            CitiesSavedFavourite citiesSavedFavourite = getItem(position);
+            CitiesSavedFavourite city = getItem(position);
 
             View newView = inflater.inflate(R.layout.list_view_adapter_city, parent, false);
 
             TextView tvCity = newView.findViewById(R.id.tvCity);
-            tvCity.setText(citiesSavedFavourite.getName());
+            tvCity.setText(city.getName());
 
             return newView;
+        }
+    }
+
+    private class CityQuery extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+
+                URL url = new URL("https://api.geodatasource.com/cities?key=KQZ4KMGGFNWFSJUEYLXKTXGS2GWOOZZ3&lat=" + latitude + "&lng=" + longitude + "&format=JSON");
+
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                InputStream response = urlConnection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"), 8);
+                StringBuilder sb = new StringBuilder();
+
+                String line;
+                while ((line = reader.readLine()) != null) sb.append(line + "\n");
+                String result = sb.toString();
+
+                JSONArray uvReport = new JSONArray(result);
+                for (int i = 0; i < uvReport.length(); i++) {
+                    JSONObject jsonObject = uvReport.getJSONObject(i);
+                    CitiesSavedFavourite citiesSavedFavourite = new CitiesSavedFavourite(jsonObject.getString("city"), jsonObject.getString("country"), jsonObject.getString("region"), jsonObject.getString("currency_name"), jsonObject.getString("latitude"), jsonObject.getString("longitude"));
+                    cList.add(citiesSavedFavourite);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (cList.isEmpty()) {
+                Toast.makeText(CitiesActivity.this, R.string.city_no_city_available, Toast.LENGTH_SHORT).show();
+            }
+            loading.setVisibility(View.INVISIBLE);
+            adapter.notifyDataSetChanged();
+
         }
     }
 

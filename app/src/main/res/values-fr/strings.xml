@@ -90,7 +90,7 @@
     <string name="citiesOpen">Open</string>
     <string name="citiesClose">Close</string>
 
-    <string name="citiesAboutProject">This is the Geo Data Source activity, written by Sepideh Sh</string>
+    <string name="citiesAboutProject">This is the Geo Data Source activity, written by Sepideh Shahroudi</string>
     <string name="citiesThankYou">Thank You</string>
     <string name="citiesCancel">Cancel</string>
     <string name="citiesFavouritesDonateTitle">Please give generou$ly</string>
@@ -105,4 +105,25 @@
     <string name="citiesDonateBody">How much would you like to donate?</string>
     <string name="citiesDonateButton">Donate</string>
     <string name="citiesNotFound">City not found.</string>
+
+    <string name="city_open">Ouverte</string>
+    <string name="city_close">Fermer</string>
+    <string name="city_help">Aidez-moi</string>
+    <string name="city_help_description">Ceci est une application de géolocalisation de la ville. Il recherchera les villes proches de la latitude et de la longitude spécifiques.</string>
+    <string name="city_donate">Merci de faire un don</string>
+    <string name="city_donate_message">combien voulez-vous donner?</string>
+    <string name="city_thank_you">Je vous remercie</string>
+    <string name="city_cancel">Annuler</string>
+    <string name="city_search_city">Rechercher une ville</string>
+    <string name="city_list_of_favorite_cities">Liste des villes préférées</string>
+    <string name="city_detail">Détail de la ville</string>
+    <string name="city_ok">D accord</string>
+    <string name="city_no_city_available">Aucune ville disponible</string>
+    <string name="city_fav_cities">Villes préférées</string>
+    <string name="city_open_map_location">Ouvrir l emplacement de la carte</string>
+    <string name="city_cities">Villes</string>
+    <string name="city_latitude">Latitude</string>
+    <string name="city_longitude">Longitude</string>
+    <string name="city_save_to_favourites">ENREGISTRER DANS LES FAVORIS</string>
+    <string name="city_remove_from_favourites">SUPPRIMER DES FAVORIS</string>
 </resources>
