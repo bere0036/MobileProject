@@ -104,5 +104,26 @@
     <string name="citiesDonateButton">Donate</string>
     <string name="citiesNotFound">City not found.</string>
 
+    <string name="city_open">Open</string>
+    <string name="city_close">Close</string>
+    <string name="city_help">Help</string>
+    <string name="city_help_description">This is a city geo location application. It will search the cities nearby the specific latitude and longitude.</string>
+    <string name="city_donate">Plesae donate</string>
+    <string name="city_donate_message">how much do you want to donate?</string>
+    <string name="city_thank_you">Thank you</string>
+    <string name="city_cancel">Cancel</string>
+    <string name="city_search_city">Search City</string>
+    <string name="city_list_of_favorite_cities">List of Favorite Cities</string>
+    <string name="city_detail">City Detail</string>
+    <string name="city_ok">Ok</string>
+    <string name="city_no_city_available">No City available</string>
+    <string name="city_fav_cities">Favorite Cities</string>
+    <string name="city_open_map_location">Open Map Location</string>
+    <string name="city_cities">Cities</string>
+    <string name="city_latitude">Latitude</string>
+    <string name="city_longitude">Longitude</string>
+    <string name="city_save_to_favourites">SAVE TO FAVOURITES</string>
+    <string name="city_remove_from_favourites">REMOVE FROM FAVOURITES</string>
+
 
 </resources>
